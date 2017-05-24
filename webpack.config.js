@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 const path = require('path')
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 // Directory where the compiled will go: copy everything to dist folder
 const DIST_DIR = path.resolve(__dirname, "dist")
@@ -33,10 +34,18 @@ const config = {
                         presets: ['react', 'es2015', 'stage-2']
                     }
                 }]
+            },
+            {
+                test: /\.(sass|scss)$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: ['css-loader', 'sass-loader']
+                })
             }
         ]
     },
     plugins: [
+        new ExtractTextPlugin('./assets/css/styles.css'),
         new CopyWebpackPlugin(
             [
                  { 
