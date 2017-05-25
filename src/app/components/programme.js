@@ -1,12 +1,17 @@
 import React from 'react';
 
+import { Link } from 'react-router-dom';
+
 export class Programme extends React.Component {
+
+    
 
     render(){
         let programme = this.props.programme;
+        console.log(this.props.programme);
 
         return(
-            <a href = "/">
+            <Link to={`/programmes/${ this.props.programme.programmeID }`}>
                 <div className="programme">
                     <h3>{programme.title}</h3>
                     <ul>
@@ -19,7 +24,7 @@ export class Programme extends React.Component {
                         <li>{programme.start}</li>
                     </ul>
                 </div>
-            </a>
+            </Link>
         );
     }
 

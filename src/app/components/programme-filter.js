@@ -5,7 +5,7 @@ export class ProgrammeFilter extends React.Component {
     constructor(){
         super();
         this.state = {
-            current: 'Bachelor'
+            current: 'Choose'
         }
 
         // Need to bind to this, in order to be able to access the setState method
@@ -20,6 +20,7 @@ export class ProgrammeFilter extends React.Component {
                  <p>Current: {this.state.current}</p>
                 <label>
                     <select value={this.state.current} onBlur={this.handleChange.bind(this)} onChange={this.handleChange}>
+                        <option value="Choose" defaultValue >Select a degree type (Show all)</option>
                         <option value="Bachelor">Bachelor</option>
                         <option value="Diploma">Diploma</option>
                         <option value="Graduate">Graduate</option>

@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Header } from './components/Header';
 import { ProgrammeContainer } from './components/programme-container';
+import { ProgrammeList } from './components/programme-list';
 
 import database from './database';
 
@@ -12,11 +13,12 @@ export class Layout extends React.Component {
         return (
             <div className="app-container">
                 <Header/>
-                <main className="main-container"> 
-                    <h1>Hello!</h1>
-                    <Route path='/programmes' component={ProgrammeContainer}/>
+                <main className="main-container">
+                    <Switch>
+                        <Route exact path="/" component={ProgrammeList}/>
+                        <Route path='/programmes' component={ProgrammeContainer}/>
+                    </Switch>
                 </main>
-                
             </div>
         );
     }

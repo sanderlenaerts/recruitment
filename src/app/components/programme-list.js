@@ -14,7 +14,7 @@ export class ProgrammeList extends React.Component {
         super();
         this.state = {
             items: [],
-            type: 'Bachelor'
+            type: 'Choose'
         }
 
         this.sendFilter = this.sendFilter.bind(this);
@@ -22,14 +22,21 @@ export class ProgrammeList extends React.Component {
 
     render(){
         let programmes = [];
-        this.state.items.filter(
-            (programme) => {
+        if (this.state.type == 'Choose'){
+            this.state.items.forEach(function(programme, index){
+                programmes.push(<Programme programme={programme} key={index} />);
+            })
+        }
+        else {
+        this.state.items
+            .filter((programme) => {
                 return programme.type == this.state.type
-            } 
-        )
-        .forEach(function(programme, index){
-            programmes.push(<Programme programme={programme} key={index} />);
-        })
+            })
+            .forEach(function(programme, index){
+                programmes.push(<Programme programme={programme} key={index} />);
+            })
+        }
+        
 
 
         return(
