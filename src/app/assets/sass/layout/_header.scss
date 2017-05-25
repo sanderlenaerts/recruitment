@@ -3,13 +3,19 @@
     justify-content: space-between;
     background-image: url('../images/kotahitaka.png');
     background-repeat: no-repeat;
-    height: 124px;
+    height: 174px;
     background-size: cover;
-    margin: 10px;
-    background-position: left 100px top 0;
+    padding: 10px;
+    background-position: left -50px top 70px;
+    background-size: auto 104px;
+    image-rendering: optimize-quality;         /* Firefox */
+
 
     .navigation {
-        margin: $tiny-margin 0 0 $huge-margin;
+        margin: $tiny-margin auto 64px;
+        width: 90%;
+        max-width: 1060px; 
+        //margin: $tiny-margin 0 0 $huge-margin;
         
         ul {
             margin: 0;
@@ -26,8 +32,8 @@
     .logo {
         width: 140px;
         position: absolute;
-        right: 0;
-        top: 0;
+        right: $huge-margin;
+        top: $huge-margin;
         height: auto;
         overflow: visible;
     }

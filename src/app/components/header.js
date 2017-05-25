@@ -25,8 +25,6 @@ export class Header extends React.Component {
                     
                     
                 </nav>
-
-                
                 <img src="./app/assets/images/OP-logo.jpg" alt="OP logo" className="logo"/>
             </header>
         );
