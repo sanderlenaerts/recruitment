@@ -48,6 +48,9 @@ const config = {
             }
         ]
     },
+    devServer: {
+        historyApiFallback: true,
+    },
     plugins: [
         new ExtractTextPlugin('./assets/css/styles.css'),
         new CopyWebpackPlugin(

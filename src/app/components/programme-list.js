@@ -4,6 +4,8 @@ import dexie from 'dexie';
 import { Programme } from './programme';
 import { ProgrammeFilter } from './programme-filter';
 
+import { Route, Switch } from 'react-router-dom';
+
 const db = new dexie('maindb');
 let ID = '112';
 
@@ -32,6 +34,7 @@ export class ProgrammeList extends React.Component {
 
         return(
             <div>
+                <Route path='/programmes/:id' component={ProgrammeList}/>
                 <h1>Study option programmes</h1>
                 <ProgrammeFilter sendFilter={this.sendFilter} />
                 <div id="list">

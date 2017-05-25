@@ -8,12 +8,12 @@ export class Header extends React.Component {
                     <ul>
                         <li>
                             <a href="index.html">
-                                <img className="home" src="./app/assets/images/home-icon.png"/>
+                                <img className="home" src="/app/assets/images/home-icon.png"/>
                             </a>
                         </li>
                         <li>
                             <a href="#">
-                                <img className="contact" src="./app/assets/images/contact-icon.png"/>
+                                <img className="contact" src="/app/assets/images/contact-icon.png"/>
                             </a>
                         </li>
                         <li>
@@ -25,7 +25,7 @@ export class Header extends React.Component {
                     
                     
                 </nav>
-                <img src="./app/assets/images/OP-logo.jpg" alt="OP logo" className="logo"/>
+                <img src="/app/assets/images/OP-logo.jpg" alt="OP logo" className="logo"/>
             </header>
         );
     }
