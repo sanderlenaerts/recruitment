@@ -1,0 +1,36 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    background-image: url('../images/kotahitaka.png');
+    background-repeat: no-repeat;
+    height: 124px;
+    background-size: cover;
+    margin: 10px;
+    background-position: left 100px top 0;
+
+    .navigation {
+        margin: $tiny-margin 0 0 $huge-margin;
+        
+        ul {
+            margin: 0;
+            padding: 0;
+
+            li {
+                padding-right: $tiny-margin;
+                display: inline-block;
+                list-style-type: none;
+            }
+        }
+    }
+
+    .logo {
+        width: 140px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: auto;
+        overflow: visible;
+    }
+
+}
+

@@ -41,6 +41,10 @@ const config = {
                     fallback: 'style-loader',
                     use: ['css-loader', 'sass-loader']
                 })
+            },
+            {
+                test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+                loader: 'url-loader?limit=100000'
             }
         ]
     },
@@ -51,6 +55,10 @@ const config = {
                  { 
                     from: SRC_DIR + '/index.html', 
                     to: DIST_DIR  
+                 },
+                 {
+                     from: './app/assets/images',
+                     to: './assets/images'
                  }
             ]
         )
