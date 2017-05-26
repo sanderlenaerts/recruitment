@@ -8,10 +8,14 @@ export class StudyOption extends React.Component {
     }
 
     render(){
+        let img = "/app/assets/images/options/Tile-study-" + _.unescape(this.props.option.Title).replace(/\s/g, '').replace(/[^a-zA-Z ]/g, '').toLowerCase() + ".png";
         return(
-            <div>
+            <div className="option">
                 <Link to={`/options/${ this.props.option.ID }/programmes`}>
-                    <img src="/app/assets/images/OP-logo.jpg"/>
+                    <div className="img-container">
+                        <img className="option-img" src={img}/>
+                    </div>
+                    
                     <h3 className="option-title">{_.unescape(this.props.option.Title)}</h3>
                 </Link>
             </div>

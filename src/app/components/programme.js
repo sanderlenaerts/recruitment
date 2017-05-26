@@ -12,19 +12,31 @@ export class Programme extends React.Component {
         let programme = this.props.programme;
 
         return(
-            <div>
+            <div className="programme">
                 <Route path='/options/:snumber/programmes/:pnumber' component={ProgrammeDetails}/> 
                 <Link to={`/options/${this.props.option}/programmes/${ this.props.programme.programmeID }`}>
-                    <div className="programme">
+                    <div>
                         <h3>{programme.title}</h3>
-                        <ul>
-                            <li>{programme.location}</li>
-                            <li>{programme.duration}</li>
-                            { programme.level ? 
-                                <li>{programme.level}</li> : ''
-                            }
-                        
-                            <li>{programme.start}</li>
+                        <table cellspacing="0" className="programme-info">
+                            <thead className="subtitles">
+                                <tr>
+                                    <td>Location</td>
+                                    <td>Duration</td>
+                                    <td>Level</td>
+                                    <td>Start</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{programme.location}</td>
+                                    <td>{programme.duration}</td>
+                                    <td>{programme.level}</td>
+                                    <td>{programme.start}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <ul className="programme-info">
+                            
                         </ul>
                     </div>
                 </Link>

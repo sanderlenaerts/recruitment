@@ -2,4 +2,10 @@
     margin: 64px auto;
     width: 90%;
     max-width: 1060px;    
+
+    h1 {
+        font-weight: 100;
+        text-align: center;
+        margin-bottom: $huge-margin;
+    }
 }
