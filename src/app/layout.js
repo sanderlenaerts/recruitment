@@ -3,6 +3,8 @@ import React from 'react';
 import { Header } from './components/Header';
 import { ProgrammeContainer } from './components/programme-container';
 import { ProgrammeList } from './components/programme-list';
+import { StudyOptionContainer } from './components/study-option-container';
+import { StudyOptionList } from './components/study-option-list';
 
 import database from './database';
 
@@ -15,25 +17,15 @@ export class Layout extends React.Component {
                 <Header/>
                 <main className="main-container">
                     <Switch>
-                        <Route exact path="/" component={ProgrammeList}/>
-                        <Route path='/programmes' component={ProgrammeContainer}/>
+                        <Route path='/options' component={StudyOptionContainer}/>
+                        <Route exact path="/" component={StudyOptionList}/>
                     </Switch>
                 </main>
             </div>
         );
     }
 
-    componentDidMount(){
-
-        fetch("https://www.op.ac.nz/api/v1/ProgrammeInformationPage.json", {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'text/plain'
-            }
-        })
-        .then(response => response.json())
-        .then(response => database.storeToDatabase(response));
-
+    componentWillMount(){
+        database.init();
     }
 }

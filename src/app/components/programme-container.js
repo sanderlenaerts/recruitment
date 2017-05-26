@@ -9,8 +9,8 @@ import { ProgrammeDetails } from './programme-details';
 
 export const ProgrammeContainer = () => (
   <Switch>
-    <Route exact path='/programmes' component={ProgrammeList}/>
-    <Route exact path='/programmes/:number' component={ProgrammeDetails}/> 
+    <Route exact path='/options/:snumber/programmes' component={ProgrammeList}/>
+    <Route path='/options/:snumber/programmes/:pnumber' component={ProgrammeDetails}/> 
   </Switch>
 )
 

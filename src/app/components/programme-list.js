@@ -1,30 +1,34 @@
 import React from 'react';
-import dexie from 'dexie';
-
 import { Programme } from './programme';
 import { ProgrammeFilter } from './programme-filter';
+import { ProgrammeDetails } from './programme-details';
+
+import database from '../database';
 
 import { Route, Switch } from 'react-router-dom';
 
-const db = new dexie('maindb');
-let ID = '112';
 
 export class ProgrammeList extends React.Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
             items: [],
-            type: 'Choose'
+            type: 'Choose',
+            id: this.props.match.params.snumber
         }
+
+        console.log(this.props);
 
         this.sendFilter = this.sendFilter.bind(this);
     }
 
     render(){
         let programmes = [];
+        let option = this.props.match.params.snumber;
+
         if (this.state.type == 'Choose'){
             this.state.items.forEach(function(programme, index){
-                programmes.push(<Programme programme={programme} key={index} />);
+                programmes.push(<Programme option={option} programme={programme} key={index} />);
             })
         }
         else {
@@ -41,7 +45,7 @@ export class ProgrammeList extends React.Component {
 
         return(
             <div>
-                <Route path='/programmes/:id' component={ProgrammeList}/>
+                <Route exact path='/options/:snumber/programmes/:pnumber' component={ProgrammeDetails}/> 
                 <h1>Study option programmes</h1>
                 <ProgrammeFilter sendFilter={this.sendFilter} />
                 <div id="list">
@@ -64,19 +68,24 @@ export class ProgrammeList extends React.Component {
     }
 
     componentDidMount(){
-        let items = [];
-
-        db.open().then((data) => {
-            data.table("programmes")
-                .where("parentID").equals(ID)
-                .each((programme) => {
-                    items.push(programme);
+         // TODO: Replace the id
+        let id = this.state.id;
+        database.getProgrammes(id)
+            .then((data) => {
+                this.setState({
+                    items: data
                 })
-                .then(() => {
-                    this.setState({items: items})
-                });
-        })
-        
+            }, function(error){
+                database.fetchProgrammes(id)
+                    .then((data) => {
+                        database.getProgrammes(id).then((data => {
+                            this.setState({
+                                items: data
+                            })
+                        }))
+                    })
+            }.bind(this))
     }
+
 
 }

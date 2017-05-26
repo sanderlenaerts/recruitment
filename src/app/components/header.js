@@ -7,7 +7,7 @@ export class Header extends React.Component {
                 <nav className="navigation">
                     <ul>
                         <li>
-                            <a href="index.html">
+                            <a href="/">
                                 <img className="home" src="/app/assets/images/home-icon.png"/>
                             </a>
                         </li>
