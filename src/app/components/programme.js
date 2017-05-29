@@ -4,9 +4,7 @@ import { Link, Route} from 'react-router-dom';
 
 import { ProgrammeDetails } from './programme-details';
 
-export class Programme extends React.Component {
-
-    
+export class Programme extends React.Component {    
 
     render(){
         let programme = this.props.programme;
@@ -17,7 +15,7 @@ export class Programme extends React.Component {
                 <Link to={`/options/${this.props.option}/programmes/${ this.props.programme.programmeID }`}>
                     <div>
                         <h3>{programme.title}</h3>
-                        <table cellspacing="0" className="programme-info">
+                        <table cellSpacing="0" className="programme-info">
                             <thead className="subtitles">
                                 <tr>
                                     <td>Location</td>
@@ -35,9 +33,6 @@ export class Programme extends React.Component {
                                 </tr>
                             </tbody>
                         </table>
-                        <ul className="programme-info">
-                            
-                        </ul>
                     </div>
                 </Link>
             </div>

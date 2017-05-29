@@ -1,0 +1,89 @@
+.form {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+
+    .form-column {
+        flex: 0 0 calc(50% - 15px);
+        width: calc(50% - 15px);
+        min-width: 400px;
+
+        &:first-child {
+            padding-right: $huge-margin;
+        }
+
+    }
+
+    label {
+        font-weight: 300;
+        color: $op-blue;
+        display: block;
+        margin-bottom: $tiny-margin;
+
+        span.required::after {
+            content: '*';
+        }
+
+        .react-datepicker__input-container {
+            display: block;
+        }
+
+        input, textarea {
+            color: $dark-beige;
+            font-size: 1em;
+            box-sizing: border-box;
+            display: block;
+            width: 100%;
+            border: none;
+            background-color: $beige;
+            padding: 8px 12px;
+            transition: background-color 0.200s linear; 
+
+            &::placeholder {
+                font-weight: 200;
+                font-size: 1em;
+                color: darken($beige, 10%);
+            }
+
+            &:focus {
+                background-color: white;
+                outline: none;
+            }
+        }
+
+        &.invalid {
+            color: red;
+        }
+    }
+
+    .title-radios {
+        border: none;
+        padding: 0;
+        margin: $tiny-margin 0;
+
+        label {
+            color: $dark-beige;
+            display: inline;
+
+            input {
+                display: none;
+
+                &:checked + span { 
+                    background-color: $light-green;
+                    color: white;
+                }
+            }
+
+            span {
+                display: inline-block;
+                padding: 8px 12px;
+                margin-right: $tiny-margin;
+                background-color: $beige;
+            }
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+}

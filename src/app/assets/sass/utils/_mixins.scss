@@ -1,0 +1,15 @@
+@mixin darken-bg($bg-color : $beige){
+    background-color: $bg-color;
+
+    &:hover {
+        background-color: darken($bg-color, 5%);
+    }
+}
+
+@mixin lighten-bg($bg-color : $beige){
+    background-color: $bg-color;
+
+    &:hover {
+        background-color: lighten($bg-color, 5%);
+    }
+}

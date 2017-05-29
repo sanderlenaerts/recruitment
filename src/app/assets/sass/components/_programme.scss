@@ -21,9 +21,7 @@
             font-weight: 700;
         }
 
-        td {
-            width: 200px;
-        }
+        
 
         tbody {
             background-color: $beige;
@@ -38,6 +36,11 @@
                     padding-left: $tiny-margin;
                 }
             }
+        }
+
+        td {
+            width: 200px;
+            padding-right: $huge-margin;
         }
 
     }

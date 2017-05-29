@@ -24,6 +24,7 @@ export class ProgrammeList extends React.Component {
 
     render(){
         let programmes = [];
+        let inner = null;
         let option = this.props.match.params.snumber;
 
         if (this.state.type == 'Choose'){
@@ -40,7 +41,16 @@ export class ProgrammeList extends React.Component {
                 programmes.push(<Programme programme={programme} key={index} />);
             })
         }
-        
+
+
+
+        if (programmes.length == 0){
+            console.log(programmes);
+            inner = <h3>There are no programmes under these criteria</h3>
+        }
+        else {
+            inner = <div id="list">{ programmes }</div>
+        }
 
 
         return(
@@ -48,23 +58,16 @@ export class ProgrammeList extends React.Component {
                 <Route exact path='/options/:snumber/programmes/:pnumber' component={ProgrammeDetails}/> 
                 <h1>Study option programmes</h1>
                 <ProgrammeFilter sendFilter={this.sendFilter} />
-                <div id="list">
-                    { programmes }
-                </div>
-                <div id="info">
-
-                </div>
+                { inner }
             </div>
             
         );
     }
 
     sendFilter(data){
-        console.log('Filter received: ', data);
         this.setState({
             type: data
         })
-        console.log('Filter changed: ', this.state)
     }
 
     componentDidMount(){
