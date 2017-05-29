@@ -58,3 +58,28 @@
 
     }
 }
+
+.selected-programmes {
+    background-color: $beige;
+    padding: 15px;
+    border-radius: 3px;
+    margin-bottom: $huge-margin;
+
+    .selected-programme {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: $tiny-margin;
+        align-items: center;
+
+        span {
+            display: inline-block;
+            color: lighten($dark-beige, 10%);
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+}

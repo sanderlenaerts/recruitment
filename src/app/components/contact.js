@@ -3,6 +3,7 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import validator from 'validator';
 import database from '../database';
+import { SelectedProgramme } from './selected-programme';
 
 export class Contact extends React.Component {
     constructor(props) {
@@ -27,7 +28,8 @@ export class Contact extends React.Component {
                 email: false
             },
             edited: false,
-            notification: false
+            notification: false,
+            selected: []
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -175,11 +177,30 @@ export class Contact extends React.Component {
     }
 
 
+    componentDidMount(){
+         let items = JSON.parse(localStorage.getItem('selected-programmes')) || { programmes: []};
+
+         console.log(items);
+
+         this.setState({
+             selected: items.programmes
+         })
+    }
+
 
     render(){
         let { isValid } = this.state;
 
         // <!--TODO: Add notification-->
+
+        let selected = [];
+
+        this.state.selected.forEach(function(programme, index){
+            console.log(programme);
+            selected.push(<SelectedProgramme programme={programme} key={index} />);
+        })
+
+        console.log(selected);
 
         return(
             <div>
@@ -263,7 +284,7 @@ export class Contact extends React.Component {
                         <textarea placeholder="If you have any comments, please write them here." name="notes" value={this.state.notes} onChange={this.handleInputChange} />
                         </label>
 
-                        <p>Fields marked with * are required</p>
+                       
                     </div>
 
                     <div className="form-column">
@@ -278,8 +299,17 @@ export class Contact extends React.Component {
                         <input placeholder="john@doe.com" name="email" value={this.state.email} onChange={this.handleInputChange} />
                         </label>
 
-                        <input type="submit" className="btn btn-good" value="Submit" />
+                        <h3>Selected Programmes</h3>
+                        {<div className="selected-programmes">
+                            { selected }
+                        </div>}
+
+                        <div className="btn-container">
+                            <input type="submit" className="btn btn-good" value="Submit" />
+                        </div>
+                         <p>Fields marked with * are required</p>
                     </div>
+                    
                  </form>
             </div> 
         );
