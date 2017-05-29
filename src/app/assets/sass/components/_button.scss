@@ -1,23 +1,33 @@
-.btn {
-    padding: 8px 20px;
-    border: none;
-    border-radius: 3px;
-    font-size: 1em;
-    font-weight: 200;
-    color: $off-black;
-    @include lighten-bg($beige);
+.btn-container {
+    .btn {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 3px;
+        font-size: 1em;
+        font-weight: 200;
+        color: $off-black;
+        @include lighten-bg($beige);
 
-    &:focus {
-        outline: none;
-    }
+        &:focus {
+            outline: none;
+        }
 
-    &:hover {
-        cursor: pointer;
-    }
+        &:hover {
+            cursor: pointer;
+        }
 
-    &-good{
-        @include lighten-bg($light-green);
-        background-color: $light-green;
-        color: white;
+        &-good {
+            @include lighten-bg($light-green);
+            color: white;
+        }
+
+        &-bad {
+            @include lighten-bg($danger);
+            color: white;
+        }
+
+        &-fixed {
+            width: 120px;
+        }
     }
-}
+}   

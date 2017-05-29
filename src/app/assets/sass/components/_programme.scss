@@ -1,6 +1,19 @@
 .programme {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .btn-container {
+        padding-right: $huge-margin;
+        display: inline-block;
+    }
+
     a {
+        
+        width: 80%;
         text-decoration: none;
+        display: inline-block;
        
     }
 
