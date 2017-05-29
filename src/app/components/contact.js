@@ -2,6 +2,7 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import validator from 'validator';
+import database from '../database';
 
 export class Contact extends React.Component {
     constructor(props) {
@@ -21,17 +22,17 @@ export class Contact extends React.Component {
                 firstname: false,
                 date: false,
                 title: false,
-                highschool: true,
                 notes: true,
                 phone: false,
-                email: false,
-                programmes: false
+                email: false
             },
-            edited: false
+            edited: false,
+            notification: false
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.finishSubmit = this.finishSubmit.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
     }
 
@@ -78,7 +79,23 @@ export class Contact extends React.Component {
                 phone: this._validatePhone(phone)
             },
             edited: true
+        }, function(){
+            this.finishSubmit();
         });
+    }
+
+    _clearForm(){
+        this.setState({
+            lastname: '',
+            firstname: '',
+            date: '',
+            title: '',
+            highschool: '',
+            notes: '',
+            phone: '',
+            email: '',
+            programmes: ''
+        })    
     }
 
     handleInputChange(event) {
@@ -102,32 +119,71 @@ export class Contact extends React.Component {
         let {firstname, lastname, email, title, date, phone} = this.state;
 
         this._validate(firstname, lastname, email, title, date, phone);
+    }
 
+    finishSubmit(){
+        console.log(this.state);
         let validation = this.state.isValid;
         let isValid = true;
 
 
         for (let property in validation){
             if (validation.hasOwnProperty(property)){
-                console.log(validation);
                 if (validation[property] == false){
                     isValid = false;
                 }
             }
         }
 
+        console.log(validation);
+
         if (isValid){
             console.log('Valid form!');
-            //TODO: Send the request
+            let contact = {
+                lastname: this.state.lastname,
+                firstname: this.state.firstname,
+                date: this.state.date.format(),
+                title: this.state.title,
+                highschool: this.state.highschool,
+                notes: this.state.notes,
+                phone: this.state.phone,
+                email: this.state.email,
+                programmes: this.state.programmes
+            }
+
+            // Store it in the local indexed db
+            database.storeContact(contact);
+
+            for (let property in validation){
+                if (validation.hasOwnProperty(property)){
+                    this.setState({
+                        isValid: {
+                            [property] : false
+                        }
+                    })
+                }
+            }
+
+            // Reset the form to not being edited
+            this.setState({
+                edited: false
+            })
+
+            this._clearForm();
+
         }
-        
     }
+
+
 
     render(){
         let { isValid } = this.state;
 
+        // <!--TODO: Add notification-->
+
         return(
             <div>
+                
                 <form className="form" onSubmit={this.handleSubmit}>
                     <div className="form-column">
                         <h3>Personal details</h3>

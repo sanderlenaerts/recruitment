@@ -7,8 +7,18 @@ module.exports = {
         console.log('Db init');
         db.version(1).stores({
             studyareas: 'ID,Description,Title,Content,IPadHidden,ParentID,Tags,Terms,RelatedPages,ID',
-            programmes: 'programmeID,title,location,duration,level,start,content,parentID,type'
+            programmes: 'programmeID,title,location,duration,level,start,content,parentID,type',
+            contacts: '++id, title, firstname, lastname, date, highschool, notes, phone, email, programmes'
         });
+    },
+
+    storeContact(contact){
+        
+        console.log('Storing: ', contact);
+
+        db.transaction('rw', 'contacts', function(contacts, trans){
+            contacts.put(contact)
+        })
     },
 
     getStudyAreas: function(){
@@ -153,6 +163,33 @@ module.exports = {
         );
 
         return promise;
+    },
+
+    getContacts: function(){
+
+        let contacts = [];
+
+        var promise = new Promise(
+            function(resolve, reject){
+
+                // Connect to the indexedDB using Dexie
+                db.open().then((data) => {
+                    console.log(data);
+                    data.table("contacts")
+                        .each((contacts) => {
+                            contacts.push(contact);
+                        })
+                        .then(() => {
+                            resolve(contacts)
+                        }, function(error){
+                            reject(error);
+                        });
+                })
+            }
+        );
+
+        return promise;
+        
     }
 }
 
