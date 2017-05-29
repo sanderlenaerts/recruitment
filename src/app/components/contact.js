@@ -4,6 +4,7 @@ import moment from 'moment';
 import validator from 'validator';
 import database from '../database';
 import { SelectedProgramme } from './selected-programme';
+import { Link } from 'react-router-dom';
 
 export class Contact extends React.Component {
     constructor(props) {
@@ -32,10 +33,12 @@ export class Contact extends React.Component {
             selected: []
         };
 
+        this.deleteSelectedProgramme = this.deleteSelectedProgramme.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.finishSubmit = this.finishSubmit.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
+        
     }
 
     _getInputStyleName(isValid){
@@ -100,6 +103,20 @@ export class Contact extends React.Component {
         })    
     }
 
+   _formValid(){
+        let isValid = true;
+
+        for (let property in validation){
+            if (validation.hasOwnProperty(property)){
+                if (validation[property] == false){
+                    isValid = false;
+                }
+            }
+        }
+
+        return isValid;
+   }
+
     handleInputChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -126,16 +143,7 @@ export class Contact extends React.Component {
     finishSubmit(){
         console.log(this.state);
         let validation = this.state.isValid;
-        let isValid = true;
-
-
-        for (let property in validation){
-            if (validation.hasOwnProperty(property)){
-                if (validation[property] == false){
-                    isValid = false;
-                }
-            }
-        }
+        let isValid = this._formValid();
 
         console.log(validation);
 
@@ -180,7 +188,6 @@ export class Contact extends React.Component {
     componentDidMount(){
          let items = JSON.parse(localStorage.getItem('selected-programmes')) || { programmes: []};
 
-         console.log(items);
 
          this.setState({
              selected: items.programmes
@@ -194,13 +201,30 @@ export class Contact extends React.Component {
         // <!--TODO: Add notification-->
 
         let selected = [];
+        let current = this;
+        let selectedContent = '';
+
 
         this.state.selected.forEach(function(programme, index){
-            console.log(programme);
-            selected.push(<SelectedProgramme programme={programme} key={index} />);
+            selected.push(<SelectedProgramme deleteSelectedProgramme={current.deleteSelectedProgramme} programme={programme} key={programme.id} />);
         })
 
-        console.log(selected);
+        if (selected.length == 0){
+            selectedContent = 
+                <div>
+                    <p>You have not yet selected any programmes</p>
+                    <Link to={`/options`}>
+                        <div className="btn-container">
+                            <button type="button" className="btn btn-good">Choose programmes</button>
+                        </div>
+                    </Link>
+                </div>
+                    
+        }
+        else {
+            selectedContent = selected;
+        }
+
 
         return(
             <div>
@@ -301,11 +325,11 @@ export class Contact extends React.Component {
 
                         <h3>Selected Programmes</h3>
                         {<div className="selected-programmes">
-                            { selected }
+                            { selectedContent }
                         </div>}
 
                         <div className="btn-container">
-                            <input type="submit" className="btn btn-good" value="Submit" />
+                            <input disabled={!this.state.edited || !this._formValid} type="submit" className="btn btn-good" value="Submit" />
                         </div>
                          <p>Fields marked with * are required</p>
                     </div>
@@ -313,5 +337,30 @@ export class Contact extends React.Component {
                  </form>
             </div> 
         );
+    }
+
+    deleteSelectedProgramme(id){
+        // Delete the programme with id from the selected list in state
+        console.log('Deleting selected programme')
+
+        console.log(id);
+
+        let current = this.state.selected.slice();
+        let newArray = [];
+
+        for (var i = 0; i < current.length; i++){
+            if (current[i].id != id){
+                console.log(current[i]);
+                newArray.push(current[i]);
+            }
+        }
+
+        console.log(newArray);
+
+        this.setState({
+            selected: newArray
+        }, function(){
+            console.log("State: ", this.state);
+        })
     }
 }

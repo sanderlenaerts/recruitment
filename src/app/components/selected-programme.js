@@ -26,7 +26,7 @@ export class SelectedProgramme extends React.Component {
                 <span>{this.state.selected.name}</span>
                 <span>
                     <div className="btn-container">
-                        <button className="btn btn-bad">Remove</button>
+                        <button type="button" onClick={this.removeProgramme} className="btn btn-bad">Remove</button>
                     </div>
                 </span>
             </div>  
@@ -52,11 +52,11 @@ export class SelectedProgramme extends React.Component {
         // If the item exists, remove it from that array and save it back into localstorage
         if (index >= 0){
             items.programmes.splice(index, 1);
-            this.setState({
-                selected: items.programmes
-            })
             localStorage.setItem('selected-programmes', JSON.stringify(items));
         }
+
+        console.log('Deleted from localStorage');
+        this.props.deleteSelectedProgramme(this.state.selected.id);
 
         //TODO: Event to parent to delete this component
     }

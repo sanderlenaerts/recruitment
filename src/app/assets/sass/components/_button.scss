@@ -29,5 +29,14 @@
         &-fixed {
             width: 120px;
         }
+
+        &:disabled {
+            background-color: darken($light-grey, 10%);
+
+            &:hover {
+                cursor: not-allowed;
+                background-color: darken($light-grey, 10%);
+            }
+        }
     }
 }   
