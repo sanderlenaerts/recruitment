@@ -1,4 +1,5 @@
 import React from 'react';
+import selection from '../services/selection';
 
 export class SelectedProgramme extends React.Component { 
 
@@ -33,32 +34,14 @@ export class SelectedProgramme extends React.Component {
         );
     }
 
-    _getSelectedProgrammeIndex(array){
-        for (let i = 0; i < array.length; i++){
-            if (array[i].id == this.props.programme.id){
-                return i;
-            }
-        }
-        return -1;
-    }
-
     removeProgramme(){
-        // Get the programmes saved as selected in localstorage
-        let items = JSON.parse(localStorage.getItem('selected-programmes')) || { programmes: []};
-
-        // Get the correct index in the localstorage item
-        let index = this._getSelectedProgrammeIndex(items.programmes);
-
-        // If the item exists, remove it from that array and save it back into localstorage
-        if (index >= 0){
-            items.programmes.splice(index, 1);
-            localStorage.setItem('selected-programmes', JSON.stringify(items));
-        }
-
-        console.log('Deleted from localStorage');
-        this.props.deleteSelectedProgramme(this.state.selected.id);
-
-        //TODO: Event to parent to delete this component
+        selection
+            .remove(this.props.programme.id)
+            .then((msg) => {
+                console.log(msg);
+                console.log('Deleted from localStorage');
+                this.props.deleteSelectedProgramme(this.state.selected.id);
+            })
     }
 
 

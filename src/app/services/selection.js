@@ -1,6 +1,60 @@
 const selection  = {
-    init: function(){
-        
+    getIndex: function(array, id){
+        for (let i = 0; i < array.length; i++){
+            if (array[i].id == id){
+                return i;
+            }
+        }
+        return -1;
+    },
+
+    remove: function(id){
+        let promise = new Promise((resolve, reject) => {
+
+            // Get the programmes saved as selected in localstorage
+            let items = JSON.parse(localStorage.getItem('selected-programmes')) || { programmes: []};
+
+            // Get the correct index in the localstorage item
+            let index = selection.getIndex(items.programmes, id);
+
+            // If the item exists, remove it from that array and save it back into localstorage
+            if (index >= 0){
+                items.programmes.splice(index, 1);
+                localStorage.setItem('selected-programmes', JSON.stringify(items));
+                resolve('Succesfully removed');
+            }
+        })
+
+        return promise;
+    },
+
+    get: function(){
+        let promise = new Promise((resolve, reject) => {
+             let items = JSON.parse(localStorage.getItem('selected-programmes')) || { programmes: []};
+             resolve(items);
+        })
+
+        return promise;
+            
+
+    },
+
+    select: function(id, name){
+        let promise = new Promise((resolve, reject) => {
+
+            // Get the selected programmes or create a new json object if no item exists yet
+            let items = JSON.parse(localStorage.getItem('selected-programmes')) || { programmes: []};
+
+            items.programmes.push({
+                id: id,
+                name: name
+            })
+
+            localStorage.setItem('selected-programmes', JSON.stringify(items));
+            resolve('Succesfully selected');
+        })
+
+        return promise;
     }
 }
 

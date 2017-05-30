@@ -3,6 +3,7 @@ import React from 'react';
 import { Link, Route} from 'react-router-dom';
 
 import { ProgrammeDetails } from './programme-details';
+import selection from '../services/selection';
 
 export class Programme extends React.Component { 
 
@@ -23,61 +24,42 @@ export class Programme extends React.Component {
 
     componentDidMount(){
         // Check if the programme was selected
-        let items = JSON.parse(localStorage.getItem('selected-programmes')) || { programmes: []};
-
-        for (let i = 0; i < items.programmes.length; i++){
-            if (items.programmes[i].id == this.props.programme.programmeID){
-                // Was previously selected, so need to change the state of this programme to selected
-                this.setState({
-                    selected: true
-                })
-            }
-        }
-
+        selection
+            .get()
+            .then((value) => {
+                let items = value;
+                for (let i = 0; i < items.programmes.length; i++){
+                    if (items.programmes[i].id == this.props.programme.programmeID){
+                        // Was previously selected, so need to change the state of this programme to selected
+                        this.setState({
+                            selected: true
+                        })
+                    }
+                }
+            })
     }
     
     selectProgramme(){
-        this.setState({
-            selected: true
-        })
-
-        // Get the selected programmes or create a new json object if no item exists yet
-        let items = JSON.parse(localStorage.getItem('selected-programmes')) || { programmes: []};
-
-        items.programmes.push({
-            id: this.props.programme.programmeID,
-            name: this.props.programme.title
-        })
-
-        localStorage.setItem('selected-programmes', JSON.stringify(items));
+        selection
+            .select(this.props.programme.programmeID, this.props.programme.title)
+            .then((success) => {
+                this.setState({
+                    selected: true
+                })
+            })
     }
 
-    _getSelectedProgrammeIndex(array){
-        for (let i = 0; i < array.length; i++){
-            if (array[i].id == this.props.programme.programmeID){
-                return i;
-            }
-        }
-        return -1;
-    }
+
 
     removeProgramme(){
-        this.setState({
-            selected: false
-        })
+        selection
+            .remove(this.props.programme.programmeID)
+            .then((msg) => {
+                this.setState({
+                    selected: false
+                })
 
-
-        // Get the programmes saved as selected in localstorage
-        let items = JSON.parse(localStorage.getItem('selected-programmes')) || { programmes: []};
-
-        // Get the correct index in the localstorage item
-        let index = this._getSelectedProgrammeIndex(items.programmes);
-
-        // If the item exists, remove it from that array and save it back into localstorage
-        if (index >= 0){
-            items.programmes.splice(index, 1);
-            localStorage.setItem('selected-programmes', JSON.stringify(items));
-        }
+            })
     }
 
     render(){
