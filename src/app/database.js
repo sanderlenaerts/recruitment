@@ -1,7 +1,8 @@
 const dexie = require('dexie');
 const db = new dexie('maindb');
 
-module.exports = {
+
+ const database  = {
 
     init: function(){
         console.log('Db init');
@@ -10,6 +11,24 @@ module.exports = {
             programmes: 'programmeID,title,location,duration,level,start,content,parentID,type',
             contacts: '++id, title, firstname, lastname, date, highschool, notes, phone, email, programmes'
         });
+    },
+
+    fetchAll(){
+        let programmes = this.fetchAllProgrammes();
+        let areas = this.fetchStudyAreas();
+        let promise = new Promise((resolve, reject) => {
+
+            Promise.all([programmes, areas])
+            .then(values => {
+                resolve(values);
+            }, error => {
+                console.log(error);
+                reject(error);
+            })
+
+        })
+
+        return promise;
     },
 
     storeContact(contact){
@@ -58,8 +77,7 @@ module.exports = {
 
         var promise = new Promise(
             function(resolve, reject){
-                console.log('What');
-
+                
                 // Connect to the indexedDB using Dexie
                 db.open().then((data) => {
                     console.log(data);
@@ -105,6 +123,31 @@ module.exports = {
 
         return promise;
 
+    },
+
+    fetchAllProgrammes: function(){
+        let programmes = [];
+
+        var promise = new Promise(
+            function(resolve, reject){
+                fetch("https://www.op.ac.nz/api/v1/ProgrammeInformationPage.json", {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'text/plain'
+                    }
+                })
+                .then(response => response.json())
+                .then(response => {
+                    storeProgrammes(response);
+                    resolve(response);
+                }, error => {
+                    reject(error);
+                });
+            }
+        );
+
+        return promise;
     },
 
      fetchProgrammes: function(id){
@@ -194,6 +237,7 @@ module.exports = {
 }
 
 var storeProgrammes = function(programmes){
+        console.log("Storing programmes");
         programmes.items.map(function(data){
             db.transaction('rw', 'programmes', function(programme, trans){
                 programme.put({
@@ -229,3 +273,6 @@ var storeStudyAreas = function(options){
             })
         })
     }
+
+
+    module.exports = database;

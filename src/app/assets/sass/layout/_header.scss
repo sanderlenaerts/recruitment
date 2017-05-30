@@ -25,6 +25,16 @@
                 padding-right: $tiny-margin;
                 display: inline-block;
                 list-style-type: none;
+
+                img {
+                    width: 30px;
+                    transition: transform 0.3s ease-in-out;
+
+                    &.refresh:hover {
+                        cursor: pointer;
+                        transform: rotate(90deg)
+                    }
+                }
             }
         }
     }

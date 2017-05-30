@@ -9,7 +9,8 @@ export class Programme extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            selected: false
+            selected: false,
+            option: this.props.option
         }
 
         this.selectProgramme = this.selectProgramme.bind(this);
@@ -24,11 +25,9 @@ export class Programme extends React.Component {
         // Check if the programme was selected
         let items = JSON.parse(localStorage.getItem('selected-programmes')) || { programmes: []};
 
-        console.log(items);
         for (let i = 0; i < items.programmes.length; i++){
             if (items.programmes[i].id == this.props.programme.programmeID){
                 // Was previously selected, so need to change the state of this programme to selected
-                console.log(items.programmes[i]);
                 this.setState({
                     selected: true
                 })
@@ -96,7 +95,7 @@ export class Programme extends React.Component {
                 </div>
                 
 
-                <Link to={`/options/${this.props.option}/programmes/${ this.props.programme.programmeID }`}>
+                <Link to={{ pathname:`/options/${this.props.option.ID}/programmes/${ this.props.programme.programmeID}`, state: { option: this.state.option } }}>
                     <div>
                         <h3>{programme.title}</h3>
                         <table cellSpacing="0" className="programme-info">

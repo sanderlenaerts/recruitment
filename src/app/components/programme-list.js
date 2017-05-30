@@ -5,7 +5,7 @@ import { ProgrammeDetails } from './programme-details';
 
 import database from '../database';
 
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Link } from 'react-router-dom';
 
 
 export class ProgrammeList extends React.Component {
@@ -14,10 +14,10 @@ export class ProgrammeList extends React.Component {
         this.state = {
             items: [],
             type: 'Choose',
-            id: this.props.match.params.snumber
+            id: this.props.match.params.snumber,
+            option: this.props.location.state.option
         }
 
-        console.log(this.props);
 
         this.sendFilter = this.sendFilter.bind(this);
     }
@@ -26,10 +26,11 @@ export class ProgrammeList extends React.Component {
         let programmes = [];
         let inner = null;
         let option = this.props.match.params.snumber;
+        let current = this;
 
         if (this.state.type == 'Choose'){
             this.state.items.forEach(function(programme, index){
-                programmes.push(<Programme option={option} programme={programme} key={index} />);
+                programmes.push(<Programme option={current.state.option} programme={programme} key={index} />);
             })
         }
         else {
@@ -38,7 +39,7 @@ export class ProgrammeList extends React.Component {
                 return programme.type == this.state.type
             })
             .forEach(function(programme, index){
-                programmes.push(<Programme programme={programme} key={index} />);
+                programmes.push(<Programme option={current.state.option} programme={programme} key={index} />);
             })
         }
 
@@ -52,11 +53,15 @@ export class ProgrammeList extends React.Component {
             inner = <div id="list">{ programmes }</div>
         }
 
-
         return(
             <div>
+                <Link to={`/options`}>
+                    <div className="backbutton">
+                        <img src="/app/assets/images/back-button.png" />
+                    </div>
+                </Link>
                 <Route exact path='/options/:snumber/programmes/:pnumber' component={ProgrammeDetails}/> 
-                <h1>Study option programmes</h1>
+                <h1>{this.state.option.Title || 'Programme Options'}</h1>
                 <ProgrammeFilter sendFilter={this.sendFilter} />
                 { inner }
             </div>
@@ -71,7 +76,6 @@ export class ProgrammeList extends React.Component {
     }
 
     componentDidMount(){
-         // TODO: Replace the id
         let id = this.state.id;
         database.getProgrammes(id)
             .then((data) => {

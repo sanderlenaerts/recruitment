@@ -6,6 +6,7 @@ import { ProgrammeList } from './components/programme-list';
 import { StudyOptionContainer } from './components/study-option-container';
 import { StudyOptionList } from './components/study-option-list';
 import { Contact } from './components/contact';
+import { NotFound } from './components/not-found';
 
 import database from './database';
 
@@ -18,9 +19,10 @@ export class Layout extends React.Component {
                 <Header/>
                 <main className="main-container">
                     <Switch>
-                        <Route path='/options' component={StudyOptionContainer}/>
                         <Route exact path="/" component={StudyOptionList}/>
                         <Route exact path="/contact" component={Contact}/>
+                        <Route path='/options' component={StudyOptionContainer}/>
+                        <Route component={NotFound}/>
                     </Switch>
                 </main>
             </div>

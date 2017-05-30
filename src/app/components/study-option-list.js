@@ -20,9 +20,7 @@ export class StudyOptionList extends React.Component {
         let options = [];
 
         this.state.items.forEach(function(option, index){
-            console.log("Looping", option);
             options.push(<StudyOption option={option} key={index} />);
-            console.log(options);
         })
 
         return(
@@ -37,7 +35,6 @@ export class StudyOptionList extends React.Component {
     }
 
      componentDidMount(){
-         // TODO: Replace the id
         database.getStudyAreas()
             .then((data) => {
                 this.setState({

@@ -4,6 +4,8 @@ import dexie from 'dexie';
 const db = new dexie('maindb');
 import database from '../database';
 
+import { Link } from 'react-router-dom';
+
 export class ProgrammeDetails extends React.Component {
 
     constructor(props){
@@ -30,6 +32,11 @@ export class ProgrammeDetails extends React.Component {
     render(){
         return(
             <div>
+                <Link to={{ pathname: `/options/${this.props.match.params.snumber}/programmes`, state: { option: this.props.location.state.option }}}>
+                    <div className="backbutton">
+                        <img src="/app/assets/images/back-button.png" />
+                    </div>
+                </Link>
                 <h1>{this.state.programme.title}</h1>
                 <div dangerouslySetInnerHTML={{__html: this.state.programme.content}}>
 

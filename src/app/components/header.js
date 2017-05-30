@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import database from '../database';
 
 export class Header extends React.Component {
     render(){
@@ -17,14 +18,20 @@ export class Header extends React.Component {
                                 <img className="contact" src="/app/assets/images/contact-icon.png"/>
                             </Link>
                         </li>
-                        <li>
-                            <a href='/' id="db">
-                            </a>
+                        <li onClick={this.refreshDb}>
+                            <img className="refresh" src="/app/assets/images/update-button.png"/>
                         </li>
                     </ul>
                 </nav>
                 <img src="/app/assets/images/OP-logo.jpg" alt="OP logo" className="logo"/>
             </header>
         );
+    }
+
+    refreshDb(){
+        database.fetchAll()
+                .then((values) => {
+                    console.log("Fetch ALL: ", values);
+                });
     }
 }

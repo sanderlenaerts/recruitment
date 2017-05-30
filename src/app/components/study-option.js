@@ -11,7 +11,7 @@ export class StudyOption extends React.Component {
         let img = "/app/assets/images/options/Tile-study-" + _.unescape(this.props.option.Title).replace(/\s/g, '').replace(/[^a-zA-Z ]/g, '').toLowerCase() + ".png";
         return(
             <div className="option">
-                <Link to={`/options/${ this.props.option.ID }/programmes`}>
+                <Link to={{ pathname: `/options/${ this.props.option.ID }/programmes`, state: { option: this.props.option }}} >
                     <div className="img-container">
                         <img className="option-img" src={img}/>
                     </div>
