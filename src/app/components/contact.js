@@ -49,12 +49,10 @@ export class Contact extends React.Component {
     }
 
     _validateName(value) {
-        console.log(value);
         return (validator.isLength(value.trim(), 1, 50));
     }
 
     _validateDate(value){
-        console.log(value);
         if (value){
             return (validator.isBefore(value.format(), moment().format()));
         }
@@ -63,7 +61,7 @@ export class Contact extends React.Component {
     }
 
     _validatePhone(value){
-        return (validator.isMobilePhone(value, 'en-NZ'));
+        return (validator.isLength(value.trim(), 1, 50));
     }
 
     _validateTitle(value){
@@ -108,7 +106,7 @@ export class Contact extends React.Component {
    _formValid(){
         let isValid = true;
         let validation = this.state.isValid;
-        
+
         for (let property in validation){
             if (validation.hasOwnProperty(property)){
                 if (validation[property] == false){
