@@ -2,7 +2,7 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import validator from 'validator';
-import database from '../database';
+import database from '../services/database';
 import { SelectedProgramme } from './selected-programme';
 import { Link } from 'react-router-dom';
 
@@ -70,7 +70,6 @@ export class Contact extends React.Component {
 
 
     _validate(firstname, lastname, email, title, date, phone) {
-        console.log('Validating');
         this.setState({
             isValid: {
                 firstname: this._validateName(firstname),

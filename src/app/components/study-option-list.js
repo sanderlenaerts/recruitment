@@ -5,7 +5,7 @@ import { StudyOption } from './study-option';
 
 import { Route, Switch } from 'react-router-dom';
 
-import database from '../database';
+import database from '../services/database';
 
 export class StudyOptionList extends React.Component {
     constructor(){

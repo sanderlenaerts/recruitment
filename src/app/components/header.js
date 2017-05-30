@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import database from '../database';
+import database from '../services/database';
 
 export class Header extends React.Component {
     render(){
@@ -32,6 +32,8 @@ export class Header extends React.Component {
         database.fetchAll()
                 .then((values) => {
                     console.log("Fetch ALL: ", values);
+                    // TODO: Use these values to alter the data
+                    // TODO: Notification
                 });
     }
 }

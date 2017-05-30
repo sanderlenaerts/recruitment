@@ -8,7 +8,7 @@ import { StudyOptionList } from './components/study-option-list';
 import { Contact } from './components/contact';
 import { NotFound } from './components/not-found';
 
-import database from './database';
+import database from './services/database';
 
 import { Switch, Route } from 'react-router-dom'
 
