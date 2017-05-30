@@ -15,10 +15,9 @@ export class ProgrammeFilter extends React.Component {
 
     render(){
         return(
-           
-            <div className="form">
-                 <p>Current: {this.state.current}</p>
+            <div className="form form-filter">
                 <label>
+                    <span>Filter</span>
                     <select value={this.state.current} onBlur={this.handleChange.bind(this)} onChange={this.handleChange}>
                         <option value="Choose" defaultValue >Select a degree type (Show all)</option>
                         <option value="Bachelor">Bachelor</option>

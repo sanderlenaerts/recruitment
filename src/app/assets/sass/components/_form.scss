@@ -86,4 +86,25 @@
             }
         }
     }
+
+    &.form-filter {
+        label {
+            span {
+                margin-right: $tiny-margin;
+            }
+        }
+        select {
+            font-size: 1em;
+            background: $beige;
+            border: none;
+            padding: 8px 12px;
+            height: auto;
+            box-sizing: border-box;
+            height: 40px;
+
+            &:focus {
+                outline: none;
+            }
+        }
+    }
 }

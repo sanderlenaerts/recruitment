@@ -18,7 +18,6 @@ export class Contact extends React.Component {
             notes: '',
             phone: '',
             email: '',
-            programmes: '',
             isValid: {
                 lastname: false,
                 firstname: false,
@@ -99,13 +98,17 @@ export class Contact extends React.Component {
             notes: '',
             phone: '',
             email: '',
-            programmes: ''
+            selected: []
         })    
+
+
+        localStorage.setItem('selected-programmes', JSON.stringify({ programmes: []}));
     }
 
    _formValid(){
         let isValid = true;
-
+        let validation = this.state.isValid;
+        
         for (let property in validation){
             if (validation.hasOwnProperty(property)){
                 if (validation[property] == false){
@@ -141,14 +144,10 @@ export class Contact extends React.Component {
     }
 
     finishSubmit(){
-        console.log(this.state);
         let validation = this.state.isValid;
         let isValid = this._formValid();
 
-        console.log(validation);
-
         if (isValid){
-            console.log('Valid form!');
             let contact = {
                 lastname: this.state.lastname,
                 firstname: this.state.firstname,
@@ -158,7 +157,7 @@ export class Contact extends React.Component {
                 notes: this.state.notes,
                 phone: this.state.phone,
                 email: this.state.email,
-                programmes: this.state.programmes
+                programmes: this.state.selected
             }
 
             // Store it in the local indexed db
@@ -329,7 +328,7 @@ export class Contact extends React.Component {
                         </div>}
 
                         <div className="btn-container">
-                            <input disabled={!this.state.edited || !this._formValid} type="submit" className="btn btn-good" value="Submit" />
+                            <input disabled={!this._formValid} type="submit" className="btn btn-good" value="Submit" />
                         </div>
                          <p>Fields marked with * are required</p>
                     </div>
@@ -341,9 +340,6 @@ export class Contact extends React.Component {
 
     deleteSelectedProgramme(id){
         // Delete the programme with id from the selected list in state
-        console.log('Deleting selected programme')
-
-        console.log(id);
 
         let current = this.state.selected.slice();
         let newArray = [];
@@ -355,12 +351,8 @@ export class Contact extends React.Component {
             }
         }
 
-        console.log(newArray);
-
         this.setState({
             selected: newArray
-        }, function(){
-            console.log("State: ", this.state);
         })
     }
 }
