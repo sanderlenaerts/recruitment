@@ -15,7 +15,7 @@ export class ProgrammeList extends React.Component {
             items: [],
             type: 'Choose',
             id: this.props.match.params.snumber,
-            option: this.props.location.state.option
+            option: {}
         }
 
 
@@ -25,18 +25,17 @@ export class ProgrammeList extends React.Component {
     render(){
         let programmes = [];
         let inner = null;
-        let option = this.props.match.params.snumber;
         let current = this;
 
         if (this.state.type == 'Choose'){
             this.state.items.forEach(function(programme, index){
-                programmes.push(<Programme option={current.state.option} programme={programme} key={index} />);
+                programmes.push(<Programme option={current.state.id} programme={programme} key={index} />);
             })
         }
         else {
         this.state.items
             .filter((programme) => {
-                return programme.type == this.state.type
+                return programme.Type == this.state.type
             })
             .forEach(function(programme, index){
                 programmes.push(<Programme option={current.state.option} programme={programme} key={index} />);
@@ -45,8 +44,7 @@ export class ProgrammeList extends React.Component {
 
 
 
-        if (programmes.length == 0){
-            console.log(programmes);
+        if (programmes.length == 0){ 
             inner = <h3>There are no programmes under these criteria</h3>
         }
         else {
@@ -61,7 +59,7 @@ export class ProgrammeList extends React.Component {
                     </div>
                 </Link>
                 <Route exact path='/options/:snumber/programmes/:pnumber' component={ProgrammeDetails}/> 
-                <h1>{this.state.option.Title || 'Programme Options'}</h1>
+                <h1>{this.state.option? this.state.option.Title || 'Programme Options' : 'Programme Options'}</h1>
                 <ProgrammeFilter sendFilter={this.sendFilter} />
                 { inner }
             </div>
@@ -77,21 +75,31 @@ export class ProgrammeList extends React.Component {
 
     componentDidMount(){
         let id = this.state.id;
+    
+
         database.getProgrammes(id)
-            .then((data) => {
+            .then((items) => {
+                console.log('PROGRAMMES', items);
                 this.setState({
-                    items: data
+                    items: items
                 })
-            }, function(error){
-                database.fetchProgrammes(id)
-                    .then((data) => {
-                        database.getProgrammes(id).then((data => {
-                            this.setState({
-                                items: data
-                            })
-                        }))
+
+                 database
+                    .getStudyArea(id)
+                    .then((area) => {
+                        this.setState({
+                            option: area
+                        })
+                    }, (error) => {
+                        console.log(error);
+                        //TODO: Error shown
                     })
-            }.bind(this))
+
+            }, (error) => {
+                console.log(error);
+            })
+
+       
     }
 
 

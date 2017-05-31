@@ -40,16 +40,9 @@ export class StudyOptionList extends React.Component {
                 this.setState({
                     items: data
                 })
-            }, function(error){
-                database.fetchStudyAreas()
-                    .then((data) => {
-                        database.getStudyAreas().then((data => {
-                            this.setState({
-                                items: data
-                            })
-                        }))
-                    })
-            }.bind(this))
+            }, (error) => {
+                console.log(error);
+            })
     }
 
 }

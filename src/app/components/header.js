@@ -2,7 +2,49 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import database from '../services/database';
 
+import { toast } from 'react-toastify';
+
+
 export class Header extends React.Component {
+    constructor(){
+        super();
+    }
+
+    refreshDb(){
+        let current = this;
+        const toastId = toast(
+            <div>
+                <span className="loading">
+                    <img src="/app/assets/images/update-button.png" />
+                </span>
+                <span>
+                    <h3>Trying to fetch new data from the API</h3>
+                </span>
+            </div>, {
+                autoClose: false,
+                hideProgressBar: true
+            })
+
+        
+
+        database.fetchAll()
+                .then((values) => {
+                    toast.dismiss(toastId);
+                    setTimeout(
+                    toast(<h3>Updated the local database.</h3>, {
+                        type: 'success',
+                        hideProgressBar: true,
+                        position: toast.POSITION.TOP_RIGHT
+                    }), 1000);
+                }, (error) => {
+                    toast.dismiss(toastId);
+                    toast(<h3>Failed to fetch new data</h3>, {
+                        type: 'error'
+                    })
+                });
+    }
+
+
     render(){
         return(
             <header className="header">
@@ -28,12 +70,5 @@ export class Header extends React.Component {
         );
     }
 
-    refreshDb(){
-        database.fetchAll()
-                .then((values) => {
-                    console.log("Fetch ALL: ", values);
-                    // TODO: Use these values to alter the data
-                    // TODO: Notification
-                });
-    }
+    
 }

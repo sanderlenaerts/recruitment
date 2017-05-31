@@ -1,0 +1,40 @@
+.toastify-content {
+    display: flex;
+    align-items: center;
+
+    .toastify__body {
+        margin-left: $tiny-margin;
+
+        & > div {
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    .loading {
+        margin-right: $huge-margin;
+    
+        img {
+            width: 32px;
+            animation: spin 1s linear infinite;
+        }
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(-120deg);
+    }
+
+    75% {
+         transform: rotate(-240deg);
+    }
+
+    100% {
+        transform: rotate(-360deg);
+    }
+}

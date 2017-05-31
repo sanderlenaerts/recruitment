@@ -29,7 +29,7 @@ export class Programme extends React.Component {
             .then((value) => {
                 let items = value;
                 for (let i = 0; i < items.programmes.length; i++){
-                    if (items.programmes[i].id == this.props.programme.programmeID){
+                    if (items.programmes[i].id == this.props.programme.ID){
                         // Was previously selected, so need to change the state of this programme to selected
                         this.setState({
                             selected: true
@@ -41,7 +41,7 @@ export class Programme extends React.Component {
     
     selectProgramme(){
         selection
-            .select(this.props.programme.programmeID, this.props.programme.title)
+            .select(this.props.programme.ID, this.props.programme.Title)
             .then((success) => {
                 this.setState({
                     selected: true
@@ -53,7 +53,7 @@ export class Programme extends React.Component {
 
     removeProgramme(){
         selection
-            .remove(this.props.programme.programmeID)
+            .remove(this.props.programme.ID)
             .then((msg) => {
                 this.setState({
                     selected: false
@@ -77,7 +77,7 @@ export class Programme extends React.Component {
                 </div>
                 
 
-                <Link to={{ pathname:`/options/${this.props.option.ID}/programmes/${ this.props.programme.programmeID}`, state: { option: this.state.option } }}>
+                <Link to={{ pathname:`/options/${this.props.option}/programmes/${ this.props.programme.ID}`}}>
                     <div>
                         <h3>{programme.title}</h3>
                         <table cellSpacing="0" className="programme-info">
@@ -91,10 +91,10 @@ export class Programme extends React.Component {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{programme.location}</td>
-                                    <td>{programme.duration}</td>
-                                    <td>{programme.level}</td>
-                                    <td>{programme.start}</td>
+                                    <td>{programme.Location}</td>
+                                    <td>{programme.Duration}</td>
+                                    <td>{programme.Level}</td>
+                                    <td>{programme.Start}</td>
                                 </tr>
                             </tbody>
                         </table>

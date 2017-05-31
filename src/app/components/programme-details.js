@@ -12,6 +12,7 @@ export class ProgrammeDetails extends React.Component {
         super(props);
 
         this.state = {
+            optionId: this.props.match.params.snumber,
             programmeId: this.props.match.params.pnumber,
             programme: {}
         }
@@ -32,13 +33,13 @@ export class ProgrammeDetails extends React.Component {
     render(){
         return(
             <div>
-                <Link to={{ pathname: `/options/${this.props.match.params.snumber}/programmes`, state: { option: this.props.location.state.option }}}>
+                <Link to={{ pathname: `/options/${this.state.optionId}/programmes`}}>
                     <div className="backbutton">
                         <img src="/app/assets/images/back-button.png" />
                     </div>
                 </Link>
-                <h1>{this.state.programme.title}</h1>
-                <div dangerouslySetInnerHTML={{__html: this.state.programme.content}}>
+                <h1>{this.state.programme.Title}</h1>
+                <div dangerouslySetInnerHTML={{__html: this.state.programme.Content}}>
 
                 </div>
             </div>

@@ -12,12 +12,21 @@ import database from './services/database';
 
 import { Switch, Route } from 'react-router-dom'
 
+import { ToastContainer } from 'react-toastify';
+
+
 export class Layout extends React.Component {
+    constructor(){
+        super();
+
+    }
+
     render(){
         return (
             <div className="app-container">
                 <Header/>
                 <main className="main-container">
+                    <ToastContainer />
                     <Switch>
                         <Route exact path="/" component={StudyOptionList}/>
                         <Route exact path="/contact" component={Contact}/>
@@ -32,4 +41,6 @@ export class Layout extends React.Component {
     componentWillMount(){
         database.init();
     }
+
+
 }
