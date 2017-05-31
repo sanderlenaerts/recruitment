@@ -162,6 +162,8 @@ const db = new dexie('maindb');
                                         database
                                             .getProgrammeWithId(id)
                                             .then((programme) => resolve(programme));
+                                    }, (error) => {
+                                        reject('Programme not found');
                                     })
                         }
                         

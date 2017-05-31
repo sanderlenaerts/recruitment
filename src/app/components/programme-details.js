@@ -6,6 +6,8 @@ import database from '../services/database';
 
 import { Link } from 'react-router-dom';
 
+import { toast } from 'react-toastify';
+
 export class ProgrammeDetails extends React.Component {
 
     constructor(props){
@@ -26,6 +28,12 @@ export class ProgrammeDetails extends React.Component {
                 this.setState({
                     programme: programme
                 })
+            }, (error) => {
+                toast(<h3>Programme with this id ({this.state.programmeId}) could not be found</h3>, {
+                    type: 'error',
+                    hideProgressBar: true,
+                    position: toast.POSITION.TOP_RIGHT
+                });
             })
         
     }

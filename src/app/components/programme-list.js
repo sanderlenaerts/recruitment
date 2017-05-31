@@ -7,6 +7,8 @@ import database from '../services/database';
 
 import { Route, Switch, Link } from 'react-router-dom';
 
+import { toast } from 'react-toastify';
+
 
 export class ProgrammeList extends React.Component {
     constructor(props){
@@ -91,12 +93,19 @@ export class ProgrammeList extends React.Component {
                             option: area
                         })
                     }, (error) => {
-                        console.log(error);
-                        //TODO: Error shown
+                        toast(<h3>Study area was not found</h3>, {
+                            type: 'error',
+                            hideProgressBar: true,
+                            position: toast.POSITION.TOP_RIGHT
+                        });
                     })
 
             }, (error) => {
-                console.log(error);
+                toast(<h3>No programmes were found</h3>, {
+                    type: 'error',
+                    hideProgressBar: true,
+                    position: toast.POSITION.TOP_RIGHT
+                });
             })
 
        

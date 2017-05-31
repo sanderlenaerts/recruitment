@@ -7,6 +7,8 @@ import { Route, Switch } from 'react-router-dom';
 
 import database from '../services/database';
 
+import { toast } from 'react-toastify';
+
 export class StudyOptionList extends React.Component {
     constructor(){
         super();
@@ -37,12 +39,15 @@ export class StudyOptionList extends React.Component {
      componentDidMount(){
         database.getStudyAreas()
             .then((data) => {
-                console.log(data);
                 this.setState({
                     items: data
                 })
             }, (error) => {
-                console.log(error);
+                toast(<h3>No study options were found</h3>, {
+                    type: 'error',
+                    hideProgressBar: true,
+                    position: toast.POSITION.TOP_RIGHT
+                });
             })
     }
 
