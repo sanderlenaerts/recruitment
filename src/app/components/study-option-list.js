@@ -27,7 +27,7 @@ export class StudyOptionList extends React.Component {
             <div>
                 <h1>Study Options</h1>
                 <div className="options-container">
-                    { options }
+                    { options.length > 0 ? options: <h3>No content found</h3> }
                 </div>
             </div>
             
@@ -37,6 +37,7 @@ export class StudyOptionList extends React.Component {
      componentDidMount(){
         database.getStudyAreas()
             .then((data) => {
+                console.log(data);
                 this.setState({
                     items: data
                 })

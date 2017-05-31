@@ -22,7 +22,7 @@ const db = new dexie('maindb');
             .then(values => {
                 resolve(values);
             }, error => {
-                console.log(error);
+                console.log("FETCHALL", error);
                 reject(error);
             })
 
@@ -71,25 +71,22 @@ const db = new dexie('maindb');
             // Connect to the indexedDB using Dexie
             db.open()
                 .then((data) => {
-                    console.log('Start to array');
                     data.studyareas
                         .toArray()
                         .then((areas) => {
                             if (areas.length == 0){
-                                console.log('No study areas yet, so fetch it');
                                 database
                                     .fetchAll()
                                     .then(
-                                        (values) => resovle(values) , 
-                                        (error) =>  reject("No study area was found")) 
+                                        (values) => resolve(values), 
+                                        (error) =>  {
+                                            reject("No study area was found")
+                                        })
                             }
                             else {
-                                return areas;
+                                resolve(areas);
                             }
                         })
-                        .then(
-                            (areas) => resolve(areas),
-                            (error) => reject("No study area was found"));
                     });
         })
 
@@ -112,21 +109,34 @@ const db = new dexie('maindb');
                             programmes.push(programme)
                         })
                         .then(() => {
-                            if (programmes.length == 0){
-                                // TODO: Filter on parentID
-                                database
-                                    .fetchAll()
-                                    .then(values => { 
-                                       database.getProgrammes(id)
-                                            .then((data) => {
-                                                resolve(data);
+                            let counter = data.programmes.count();
+                            counter.then(count => {
+                                console.log('Count: ', count);
+                                
+                                    if (programmes.length == 0 && count == 0){
+                                        // TODO: Filter on parentID
+                                        console.log(programmes.length);
+                                        database
+                                            .fetchAll()
+                                            .then(values => { 
+                                                console.log('Fetched values');
+                                                
+                                                database.getProgrammes(id)
+                                                    .then((data) => {
+                                                        console.log('Jajajaja');
+                                                        resolve(data);
+                                                    })
+                                            }, (error) =>  {
+                                                console.log('What', error);
+                                                reject("No programmes found")
                                             })
-                                    }, (error) =>  reject("No programmes found"))
-                                    
-                            }
-                            else {
-                                resolve(programmes);
-                            }
+                                            
+                                    }
+                                    else {
+                                        resolve(programmes);
+                                    }
+                                })
+                            
                         }, (error) => reject("No programmes found"))
                     });
         })

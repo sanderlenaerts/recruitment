@@ -31,8 +31,11 @@ export class ProgrammeDetails extends React.Component {
     }
 
     render(){
-        return(
-            <div>
+        let content = '';
+
+        if (this.state.programme.Title){
+            content = 
+                <div>
                 <Link to={{ pathname: `/options/${this.state.optionId}/programmes`}}>
                     <div className="backbutton">
                         <img src="/app/assets/images/back-button.png" />
@@ -43,6 +46,19 @@ export class ProgrammeDetails extends React.Component {
 
                 </div>
             </div>
+        }
+        else {
+            content = 
+                <div>
+                    <h3>No content found</h3>
+                </div>
+        }
+
+        return(
+            <div>
+                { content }
+            </div>
+            
         );
     }
 
