@@ -16,8 +16,6 @@ const config = {
     entry:  {
 
         index:  [
-            'webpack-dev-server/client?http://localhost:8080/assets/',
-            'webpack/hot/only-dev-server',
             './app/index.js'
         ]
     },
@@ -57,10 +55,6 @@ const config = {
     devServer: {
         disableHostCheck: true,
         historyApiFallback: true,
-        host: '0.0.0.0',
-        port: '8080',
-        inline: true,
-        contentBase:  'src/'
     },
     plugins: [
         new ExtractTextPlugin('./assets/css/styles.css'),

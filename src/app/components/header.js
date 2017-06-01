@@ -22,10 +22,12 @@ export class Header extends React.Component {
     }
 
     componentDidMount(){
+        
         var mySubscriber = function( msg, data ){
             console.log( msg, data );
 
-            let count = this.state.contactCount;
+             let count = this.state.contactCount;
+           
 
             this.setState({
                 contactCount: (count  + 1)
@@ -33,7 +35,7 @@ export class Header extends React.Component {
                 console.log(this.state.contactCount)
             })
             
-        };
+        }.bind(this);
         var token = PubSub.subscribe('contacts', mySubscriber);
     }
 
