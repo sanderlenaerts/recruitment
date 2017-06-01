@@ -6,6 +6,7 @@ import database from '../services/database';
 import { SelectedProgramme } from './selected-programme';
 import { Link } from 'react-router-dom';
 import { toast} from 'react-toastify';
+import PubSub from 'pubsub-js';
 
 export class Contact extends React.Component {
     constructor(props) {
@@ -161,6 +162,8 @@ export class Contact extends React.Component {
             // Store it in the local indexed db
             database.storeContact(contact)
                     .then((success) => {
+                        PubSub.publish('contacts', 'New contact');
+
                         for (let property in validation){
                             if (validation.hasOwnProperty(property)){
                                 this.setState({
@@ -198,6 +201,8 @@ export class Contact extends React.Component {
          this.setState({
              selected: items.programmes
          })
+
+         
     }
 
 

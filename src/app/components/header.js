@@ -1,13 +1,40 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import database from '../services/database';
-
 import { toast } from 'react-toastify';
 
 
 export class Header extends React.Component {
     constructor(){
         super();
+
+        this.state = {
+            contactCount: 0
+        }
+    }
+
+    componentWillMount(){
+        database.getContacts().then((contacts) => {
+            this.setState({
+                contactCount: contacts.length
+            })
+        })
+    }
+
+    componentDidMount(){
+        var mySubscriber = function( msg, data ){
+            console.log( msg, data );
+
+            let count = this.state.contactCount;
+
+            this.setState({
+                contactCount: (count  + 1)
+            }, () => {
+                console.log(this.state.contactCount)
+            })
+            
+        };
+        var token = PubSub.subscribe('contacts', mySubscriber);
     }
 
     refreshDb(){
@@ -62,6 +89,10 @@ export class Header extends React.Component {
                         </li>
                         <li onClick={this.refreshDb}>
                             <img className="refresh" src="/app/assets/images/update-button.png"/>
+                        </li>
+                        <li className="send-btn">
+                            <span>{this.state.contactCount}</span>
+                            <img className="send" src="/app/assets/images/send.png"/>
                         </li>
                     </ul>
                 </nav>

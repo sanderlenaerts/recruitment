@@ -13,8 +13,13 @@ const SRC_DIR = path.resolve(__dirname, "src");
 const config = {
     // Where to look for entries
     context: path.resolve(__dirname, SRC_DIR),
-    entry: {
-        index:  './app/index.js'
+    entry:  {
+
+        index:  [
+            'webpack-dev-server/client?http://localhost:8080/assets/',
+            'webpack/hot/only-dev-server',
+            './app/index.js'
+        ]
     },
        
     // Where to store our compiled product
@@ -53,17 +58,14 @@ const config = {
         disableHostCheck: true,
         historyApiFallback: true,
         host: '0.0.0.0',
-        port: '8080'
+        port: '8080',
+        inline: true,
+        contentBase:  'src/'
     },
     plugins: [
         new ExtractTextPlugin('./assets/css/styles.css'),
         
-        new AppCachePlugin({
-            cache: [''],
-            network: null,
-            settings: ['prefer-online'],
-            output: 'my-manifest.appcache'
-        }),
+        
         new CopyWebpackPlugin(
             [
                  { 
@@ -73,9 +75,17 @@ const config = {
                  {
                      from: './app/assets/images',
                      to: './assets/images'
-                 }
+                 },
+                 
             ]
         ),
+
+        new AppCachePlugin({
+            cache: [''],
+            network: null,
+            settings: ['prefer-online'],
+            output: 'my-manifest.appcache'
+        }),
     ]
 }
 

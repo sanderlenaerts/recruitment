@@ -1,6 +1,6 @@
 const dexie = require('dexie');
 const db = new dexie('maindb');
-
+import 'whatwg-fetch';
 
  const database  = {
 
@@ -33,7 +33,7 @@ const db = new dexie('maindb');
 
     storeContact(contact){
         
-        var promse = new Promise((resolve, reject) => {
+        var promise = new Promise((resolve, reject) => {
             console.log('Storing: ', contact);
             db.transaction('rw', 'contacts', function(contacts, trans){
                 contacts.put(contact)
@@ -43,6 +43,8 @@ const db = new dexie('maindb');
                 reject('Could not store contact');            
             })
         })
+
+        return promise;
         
     },
 
@@ -283,12 +285,13 @@ const db = new dexie('maindb');
                 db.open().then((data) => {
                     console.log(data);
                     data.table("contacts")
-                        .each((contacts) => {
+                        .each((contact) => {
                             contacts.push(contact);
                         })
                         .then(() => {
                             resolve(contacts)
                         }, function(error){
+                            console.log(error);
                             reject(new Error('Failed to get the contacts'));
                         });
                 })

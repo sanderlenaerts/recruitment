@@ -6,12 +6,13 @@
   "license": "MIT",
   "scripts": {
     "start": "yarn run build",
-    "build": "webpack -d && webpack-dev-server --content-base src/ --inline --hot --host 0.0.0.0",
+    "build": "webpack -d && webpack-dev-server",
     "build:prod": "webpack -p"
   },
   "dependencies": {
     "dexie": "^1.5.1",
     "moment": "^2.18.1",
+    "pubsub-js": "^1.5.7",
     "react": "^15.5.4",
     "react-datepicker": "^0.46.0",
     "react-dom": "^15.5.4",
