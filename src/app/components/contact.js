@@ -5,6 +5,7 @@ import validator from 'validator';
 import database from '../services/database';
 import { SelectedProgramme } from './selected-programme';
 import { Link } from 'react-router-dom';
+import { toast} from 'react-toastify';
 
 export class Contact extends React.Component {
     constructor(props) {
@@ -158,24 +159,33 @@ export class Contact extends React.Component {
             }
 
             // Store it in the local indexed db
-            database.storeContact(contact);
-
-            for (let property in validation){
-                if (validation.hasOwnProperty(property)){
-                    this.setState({
-                        isValid: {
-                            [property] : false
+            database.storeContact(contact)
+                    .then((success) => {
+                        for (let property in validation){
+                            if (validation.hasOwnProperty(property)){
+                                this.setState({
+                                    isValid: {
+                                        [property] : false
+                                    }
+                                })
+                            }
                         }
-                    })
-                }
-            }
 
-            // Reset the form to not being edited
-            this.setState({
-                edited: false
-            })
+                        // Reset the form to not being edited
+                        this.setState({
+                            edited: false
+                        })
 
-            this._clearForm();
+                        this._clearForm();
+
+                        toast(<h3>Successfully stored the new contact.</h3>, {
+                            type: 'success',
+                            hideProgressBar: true,
+                            position: toast.POSITION.TOP_RIGHT
+                        })               
+                    });
+
+            
 
         }
     }

@@ -33,11 +33,17 @@ const db = new dexie('maindb');
 
     storeContact(contact){
         
-        console.log('Storing: ', contact);
-
-        db.transaction('rw', 'contacts', function(contacts, trans){
-            contacts.put(contact)
+        var promse = new Promise((resolve, reject) => {
+            console.log('Storing: ', contact);
+            db.transaction('rw', 'contacts', function(contacts, trans){
+                contacts.put(contact)
+            }).then((success) => {
+                resolve('Successfully stored');
+            }, (error) => {
+                reject('Could not store contact');            
+            })
         })
+        
     },
 
     getStudyArea: function(id){
@@ -78,7 +84,7 @@ const db = new dexie('maindb');
                                 database
                                     .fetchAll()
                                     .then(
-                                        (values) => resolve(values), 
+                                        (values) => resolve(values[1].items), 
                                         (error) =>  {
                                             reject("No study area was found")
                                         })

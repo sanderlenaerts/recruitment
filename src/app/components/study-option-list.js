@@ -39,6 +39,7 @@ export class StudyOptionList extends React.Component {
      componentDidMount(){
         database.getStudyAreas()
             .then((data) => {
+                console.log(data);
                 this.setState({
                     items: data
                 })

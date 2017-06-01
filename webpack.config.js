@@ -2,6 +2,7 @@ const webpack = require('webpack')
 const path = require('path')
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const AppCachePlugin = require('appcache-webpack-plugin');
 
 // Directory where the compiled will go: copy everything to dist folder
 const DIST_DIR = path.resolve(__dirname, "dist")
@@ -49,10 +50,20 @@ const config = {
         ]
     },
     devServer: {
+        disableHostCheck: true,
         historyApiFallback: true,
+        host: '0.0.0.0',
+        port: '8080'
     },
     plugins: [
         new ExtractTextPlugin('./assets/css/styles.css'),
+        
+        new AppCachePlugin({
+            cache: [''],
+            network: null,
+            settings: ['prefer-online'],
+            output: 'my-manifest.appcache'
+        }),
         new CopyWebpackPlugin(
             [
                  { 
@@ -64,7 +75,7 @@ const config = {
                      to: './assets/images'
                  }
             ]
-        )
+        ),
     ]
 }
 

@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "yarn run build",
-    "build": "webpack -d && webpack-dev-server --content-base src/ --inline --hot --host 0.0.0.0 --port 3000",
+    "build": "webpack -d && webpack-dev-server --content-base src/ --inline --hot --host 0.0.0.0",
     "build:prod": "webpack -p"
   },
   "dependencies": {
@@ -22,6 +22,7 @@
     "validator": "^7.0.0"
   },
   "devDependencies": {
+    "appcache-webpack-plugin": "^1.3.0",
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",
     "babel-preset-es2015": "^6.24.1",
