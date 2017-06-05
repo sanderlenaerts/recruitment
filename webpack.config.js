@@ -83,5 +83,15 @@ const config = {
     ]
 }
 
+if (process.env.NODE_ENV === 'production') {
+    console.log('PRODUCTION');
+    
+
+} else {
+    console.log('DEVELOPMENT')
+    config.plugins.push(
+        new webpack.HotModuleReplacementPlugin()
+    );
+}
 
 module.exports = config;
