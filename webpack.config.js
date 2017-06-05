@@ -85,7 +85,13 @@ const config = {
 
 if (process.env.NODE_ENV === 'production') {
     console.log('PRODUCTION');
-    
+    config.plugins.push(
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                screw_ie8: true
+            }
+        })
+    )
 
 } else {
     console.log('DEVELOPMENT')
