@@ -21,6 +21,7 @@ export class StudyOptionList extends React.Component {
     render(){
         let options = [];
 
+        // Loop over all the study options and push a component for each option
         this.state.items.forEach(function(option, index){
             options.push(<StudyOption option={option} key={index} />);
         })
@@ -37,9 +38,9 @@ export class StudyOptionList extends React.Component {
     }
 
      componentDidMount(){
+         // On mount we need to get all the study options and set them in state
         database.getStudyAreas()
             .then((data) => {
-                console.log(data);
                 this.setState({
                     items: data
                 })

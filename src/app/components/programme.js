@@ -14,6 +14,7 @@ export class Programme extends React.Component {
             option: this.props.option
         }
 
+        // To properly change the state in these functions, we need to bind to this
         this.selectProgramme = this.selectProgramme.bind(this);
         this.removeProgramme = this.removeProgramme.bind(this);
     }
@@ -23,7 +24,7 @@ export class Programme extends React.Component {
     }
 
     componentDidMount(){
-        // Check if the programme was selected
+        // Check if the programme was previously selected
         selection
             .get()
             .then((value) => {
@@ -31,6 +32,7 @@ export class Programme extends React.Component {
                 for (let i = 0; i < items.programmes.length; i++){
                     if (items.programmes[i].id == this.props.programme.ID){
                         // Was previously selected, so need to change the state of this programme to selected
+                        // Buttonstyle depends on this state variable, so the button will change accordingly
                         this.setState({
                             selected: true
                         })
@@ -39,6 +41,7 @@ export class Programme extends React.Component {
             })
     }
     
+    // Clicking the select programme will use the selection service to store the selected programme it locally
     selectProgramme(){
         selection
             .select(this.props.programme.ID, this.props.programme.Title)
@@ -50,7 +53,7 @@ export class Programme extends React.Component {
     }
 
 
-
+// Clicking the remove programme button will use the selection service to remove the selected programme from the local storage
     removeProgramme(){
         selection
             .remove(this.props.programme.ID)

@@ -21,8 +21,9 @@ export class ProgrammeDetails extends React.Component {
     }
 
     componentDidMount(){
-        //TODO: fetch the correct item from the local database
-
+        // On mount we need to get the correct programme, based on the programme clicked
+        // We get the id from the url and then stored in state
+        // The state paramter is used here to get the correct programme
         database.getProgrammeWithId(this.state.programmeId)
             .then((programme) => {
                 this.setState({
@@ -54,6 +55,8 @@ export class ProgrammeDetails extends React.Component {
 
                 </div>
             </div>
+
+            // We set the inner html to the HTML content that was in the API
         }
         else {
             content = 

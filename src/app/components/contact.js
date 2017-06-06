@@ -142,6 +142,9 @@ export class Contact extends React.Component {
         this._validate(firstname, lastname, email, title, date, phone);
     }
 
+    // Finishing the submit will check if the form is valid 
+    // It will structure the contact as wanted by the API and store the contact in database
+    
     finishSubmit(){
         let validation = this.state.isValid;
         let isValid = this._formValid();
@@ -162,6 +165,8 @@ export class Contact extends React.Component {
             // Store it in the local indexed db
             database.storeContact(contact)
                     .then((success) => {
+
+                        // It will publish an event that will bubble to the header to change the counter
                         PubSub.publish('contacts', 'New contact');
 
                         for (let property in validation){
@@ -174,11 +179,12 @@ export class Contact extends React.Component {
                             }
                         }
 
-                        // Reset the form to not being edited
+                        // Reset the form to not edited
                         this.setState({
                             edited: false
                         })
 
+                        // We need to clear out the form
                         this._clearForm();
 
                         toast(<h3>Successfully stored the new contact.</h3>, {
@@ -193,7 +199,7 @@ export class Contact extends React.Component {
         }
     }
 
-
+    // On mount we need to check if there are programmes selected
     componentDidMount(){
          let items = JSON.parse(localStorage.getItem('selected-programmes')) || { programmes: []};
 
@@ -201,25 +207,21 @@ export class Contact extends React.Component {
          this.setState({
              selected: items.programmes
          })
-
-         
     }
 
 
     render(){
         let { isValid } = this.state;
 
-        // <!--TODO: Add notification-->
-
         let selected = [];
         let current = this;
         let selectedContent = '';
 
-
+        // If there are selected programmes, we push a SelectedProgramme component for each selected programme
         this.state.selected.forEach(function(programme, index){
             selected.push(<SelectedProgramme deleteSelectedProgramme={current.deleteSelectedProgramme} programme={programme} key={programme.id} />);
         })
-
+        // If no programmes are selected, we need to let the user know they have to select some
         if (selected.length == 0){
             selectedContent = 
                 <div>
@@ -350,6 +352,7 @@ export class Contact extends React.Component {
         );
     }
 
+    // Delete method to remove the programme from the list of selected programmes
     deleteSelectedProgramme(id){
         // Delete the programme with id from the selected list in state
 
@@ -358,7 +361,6 @@ export class Contact extends React.Component {
 
         for (var i = 0; i < current.length; i++){
             if (current[i].id != id){
-                console.log(current[i]);
                 newArray.push(current[i]);
             }
         }

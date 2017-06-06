@@ -1,4 +1,6 @@
 const selection  = {
+
+    // Get the index in local storage of the selected programme
     getIndex: function(array, id){
         for (let i = 0; i < array.length; i++){
             if (array[i].id == id){
@@ -8,6 +10,7 @@ const selection  = {
         return -1;
     },
 
+    // Remove a programme from localstorage
     remove: function(id){
         let promise = new Promise((resolve, reject) => {
 
@@ -28,6 +31,7 @@ const selection  = {
         return promise;
     },
 
+    // Get all the programmes from localstorage
     get: function(){
         let promise = new Promise((resolve, reject) => {
              let items = JSON.parse(localStorage.getItem('selected-programmes')) || { programmes: []};
@@ -39,6 +43,7 @@ const selection  = {
 
     },
 
+    // Save a programme in localstorage
     select: function(id, name){
         let promise = new Promise((resolve, reject) => {
 

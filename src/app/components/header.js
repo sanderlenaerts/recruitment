@@ -28,7 +28,7 @@ export class Header extends React.Component {
     
 
     componentDidMount(){
-        
+        // Method that updates the counter when form in contact is submitted
         var mySubscriber = function( msg, data ){
              let count = this.state.contactCount;
            
@@ -39,48 +39,54 @@ export class Header extends React.Component {
             
         }.bind(this);
 
-
+        // Subscribing to events published to 'contacts'
+        // When event published to 'contacts' the mySubscriber method will trigger
         var token = PubSub.subscribe('contacts', mySubscriber);
     }
 
+    // Click method that will try to POST all the locally stored contacts (dexie)
+    // It will set the counter to the amount of contacts left in storage
     flushContacts(){
-        
-        const toaster = toast(
-            <div>
-                <span className="loading">
-                    <img src="/app/assets/images/update-button.png" />
-                </span>
-                <span>
-                    <h3>Trying to flush contacts to the API</h3>
-                </span>
-            </div>, {
-                autoClose: false,
-                hideProgressBar: true
-            })
+        // Don't need to try to POST the contacts if there are none
+        if (this.state.contactCount > 0) {
+            const toaster = toast(
+                <div>
+                    <span className="loading">
+                        <img src="/app/assets/images/update-button.png" />
+                    </span>
+                    <span>
+                        <h3>Trying to flush contacts to the API</h3>
+                    </span>
+                </div>, {
+                    autoClose: false,
+                    hideProgressBar: true
+                })
 
-        contact
-            .flushContacts()
-            .then((success) => {
-                toast.dismiss(toaster);
-                this.setState({
-                    contactCount: 0
-                }, () => {
-                    toast(<h3>All contacts were correctly flushed to the API</h3>, {
-                        type: 'success'
+        
+            // Post all the contacts to the API
+             contact
+                .flushContacts()
+                .then((success) => {
+                    toast.dismiss(toaster);
+                    this.setState({
+                        contactCount: 0
+                    }, () => {
+                        toast(<h3>All contacts were correctly flushed to the API</h3>, {
+                            type: 'success'
+                        })
+                    })
+                }, error => {
+                    toast.dismiss(toaster);
+                    this.setState({
+                        contactCount: error.length
+                    }, () => {
+                        toast(<h3>Not all contacts were flushed correctly</h3>, {
+                            type: 'error'
+                        })
                     })
                 })
-        }, error => {
-            toast.dismiss(toaster);
-            console.log(error);
-            this.setState({
-                contactCount: error.length
-            }, () => {
-                    toast(<h3>Not all contacts were flushed correctly</h3>, {
-                        type: 'error'
-                    })
-                })
-            console.log(error);
-        })
+        }
+       
     }
 
     refreshDb(){

@@ -8,6 +8,9 @@ export class StudyOption extends React.Component {
     }
 
     render(){
+        // The image url needs to be dynamic depending on the title of the study option
+        // We need to unescape the title so '&amp;' gets replaced by just & for example
+        // We remove all characters except a-zA-Z
         let img = "/app/assets/images/options/Tile-study-" + _.unescape(this.props.option.Title).replace(/\s/g, '').replace(/[^a-zA-Z ]/g, '').toLowerCase() + ".png";
         return(
             <div className="option">
@@ -21,11 +24,6 @@ export class StudyOption extends React.Component {
             </div>
             
         );
-    }
-
-    componentDidMount(){
-
-        
     }
 
 }

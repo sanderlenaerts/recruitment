@@ -4,15 +4,19 @@ import 'whatwg-fetch';
 
  const database  = {
 
+    // Initialize the db
+    // Set the version
+    // Initialize what kind of data is expected
     init: function(){
-        console.log('Db init');
         db.version(1).stores({
             studyareas: 'ID,Description,Title,Content,IPadHidden,ParentID,Tags,Terms,RelatedPages,ID',
             programmes: 'ID,Title,Location,Duration,Level,Start,Content,ParentID,Type',
             contacts: '++id, title, firstname, lastname, date, highschool, notes, phone, email, programmes'
         });
     },
-
+    
+    // Fetch for both the programmes and study options
+    // Store them on success in the indexed db
     fetchAll(){
         let programmes = this.fetchAllProgrammes();
         let areas = this.fetchStudyAreas();
@@ -31,6 +35,7 @@ import 'whatwg-fetch';
         return promise;
     },
 
+    // Remove a contact based on the ID given from the indexed db
     removeContact(id){
         var promise = new Promise((resolve, reject) => {
             db.contacts
@@ -45,6 +50,7 @@ import 'whatwg-fetch';
         return promise;
     },
 
+    // Store a new contact in the local indexed db when form is submitted
     storeContact(contact){
         
         var promise = new Promise((resolve, reject) => {
@@ -62,10 +68,7 @@ import 'whatwg-fetch';
         
     },
 
-    clearContacts(){
-        // TODO: Clear the indexedDB
-    },
-
+    // Get a certain study area/option based on the id given
     getStudyArea: function(id){
         var promise = new Promise((resolve, reject) => {
             
@@ -90,6 +93,7 @@ import 'whatwg-fetch';
         return promise;
     },
 
+    // Get all the study areas/options
     getStudyAreas: function(){
 
         var promise = new Promise((resolve, reject) => {
@@ -119,6 +123,8 @@ import 'whatwg-fetch';
         return promise;
     },
 
+    // Get all the programmes with a certain parent id
+    // This means all programmes under a certain study area
     getProgrammes: function(id){
 
         let programmes = [];
@@ -171,6 +177,8 @@ import 'whatwg-fetch';
 
     },
 
+
+    // Get a certain programme based on id
     getProgrammeWithId: function(id){
 
         var promise = new Promise(
@@ -199,6 +207,7 @@ import 'whatwg-fetch';
         return promise;
     },
 
+    // Fetch to GET all the programmes from the API
     fetchAllProgrammes: function(){
         let programmes = [];
 
@@ -227,6 +236,8 @@ import 'whatwg-fetch';
         return promise;
     },
 
+     // Fetch to GET all the programmes from the API
+     // Only return the programmes that have the 'id' as a parentID
      fetchProgrammes: function(id){
         let programmes = [];
 
@@ -258,6 +269,7 @@ import 'whatwg-fetch';
         return promise;
     },
 
+    // Fetch all the study areas/options from the API
      fetchStudyAreas: function(){
         console.log('Fetching study areas');
         let programmes = [];
@@ -290,6 +302,7 @@ import 'whatwg-fetch';
         return promise;
     },
 
+    // Get all the contacts from the indexed db
     getContacts: function(){
 
         let contacts = [];
@@ -319,8 +332,8 @@ import 'whatwg-fetch';
     }
 }
 
+// Store the programmes in indexed db (dexie)
 var storeProgrammes = function(programmes){
-        console.log("Storing programmes");
         programmes.items.map(function(data){
             db.transaction('rw', 'programmes', function(programme, trans){
                 programme.put({
@@ -338,6 +351,7 @@ var storeProgrammes = function(programmes){
         })
 }
 
+// Store the study areas/options in indexed db (dexie)
 var storeStudyAreas = function(options){
         console.log('Stroing study areas');
         options.items.map(function(data){
@@ -367,6 +381,7 @@ let filterArea = function(id, array){
     return options[0];
 }
 
+// Filter the programmes based on parentID
 let filterProgrammes = function(id, array){
     // Filter through to get the correct study area
     let programmes = array.filter((programme, index) => {
@@ -378,4 +393,4 @@ let filterProgrammes = function(id, array){
 }
 
 
-    module.exports = database;
+module.exports = database;

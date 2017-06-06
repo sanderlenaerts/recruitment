@@ -13,7 +13,10 @@ const contacts  = {
 
             let errors = [];
 
+            // We get all the contacts that are locally stored in indexedDB using Dexie
             database.getContacts().then((agents) => {
+
+                // We loop over the contacts
                 for (var i = 0; i < agents.length; i++){
                     let contact = agents[i];
 
@@ -31,13 +34,11 @@ const contacts  = {
                         InterestedTitle3: contact.programmes[2]? contact.programmes[2].name : ''
                     }
 
-                    console.log(data);
-
-          
+                    // We convert our object literal to a querystring that is expected of the PHP API
                     let urlParameters = Object.keys(data).map((i) => i+'='+data[i]).join('&').replace(/ /g,"%20");;
 
-                    console.log(urlParameters);
 
+                    // We send a POST request to the API for each contact
                     fetch(route + "/api/v1/AgentEnquiry", {
                         method: 'POST',
                         headers: {
@@ -47,35 +48,38 @@ const contacts  = {
                         mode: 'cors',
                         body: urlParameters
                     }).then((d) => {
-                        console.log('Success ', d);
-                        //TODO: Remove from local database
-                        database.removeContact(contact.id).then((success) => {
-                            console.log("Deleted from dexie db", success);
-                        })
-                        console.log(i);
+                        // Successfull POST, so the local contact can be removed
+                        database.removeContact(contact.id);
+                        
+                        // Check if this is the last of the contacts
+                        // i instead of i+1 because counter has already gone up
+                        // If the last contact, check if there were any errors
+                        // If errors, reject, else resolve 
                         if (i == agents.length){
                             console.log(i);
                             if(errors.length > 0) {
-                                console.log('ERRORS');
                                 reject(errors)
                             }
                             else {
-                                console.log('SUCCESS');
                                 resolve('No errors, all contacts were flushed');
                             }
                         }
 
                     }, error => {
-                        console.log(i);
+
+                        // Push the failed contact to the array of errors
                         errors.push(contact);
+
+
+                        // Check if this is the last of the contacts
+                        // i instead of i+1 because counter has already gone up
+                        // If the last contact, check if there were any errors
+                        // If errors, reject, else resolve 
                         if (i == agents.length){
-                            console.log(i);
                             if(errors.length > 0) {
-                                console.log('ERRORS');
                                 reject(errors)
                             }
                             else {
-                                console.log('SUCCESS');
                                 resolve('No errors, all contacts were flushed');
                             }
                         }

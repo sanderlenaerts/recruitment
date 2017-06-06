@@ -32,6 +32,8 @@ export class ProgrammeFilter extends React.Component {
         );
     }
 
+    // Every time we change the value of the dropdown, this function will be called
+    // This function will send out an event as a prop to the parent
     handleChange(event){
         this.setState({
             current: event.target.value
