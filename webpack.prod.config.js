@@ -52,10 +52,6 @@ const config = {
             }
         ]
     },
-    devServer: {
-        disableHostCheck: true,
-        historyApiFallback: true,
-    },
     plugins: [
         new ExtractTextPlugin('./assets/css/styles.css'),
         
@@ -79,33 +75,13 @@ const config = {
             settings: ['prefer-online'],
             output: 'my-manifest.appcache'
         }),
-    ]
-}
-
-if (process.env.NODE_ENV === 'production') {
-    console.log('PRODUCTION');
-
-    config.plugins.push(
-        new webpack.DefinePlugin({
+         new webpack.DefinePlugin({
             'process.env' : {
                 'build': JSON.stringify('www')
             }
         })
-    )
-
-} else {
-    console.log('DEVELOPMENT')
-    config.plugins.push(
-        new webpack.HotModuleReplacementPlugin()
-    )
-
-    config.plugins.push(
-        new webpack.DefinePlugin({
-            'process.env' : {
-                'build': JSON.stringify('jeffrey')
-            }
-        })
-    )
+    ]
 }
+
 
 module.exports = config;

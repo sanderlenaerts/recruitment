@@ -89,7 +89,6 @@ export class ProgrammeList extends React.Component {
     }
 
     limitedLength(length){
-        console.log('Event caught: ', length)
         this.setState({
             length: length
         }, () => {
@@ -104,7 +103,6 @@ export class ProgrammeList extends React.Component {
         // Uses the parameter that was set in state on load of the component (gotten from the url)
         database.getProgrammes(id)
             .then((items) => {
-                console.log('PROGRAMMES', items);
                 this.setState({
                     items: items
                 })
