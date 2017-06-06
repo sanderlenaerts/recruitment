@@ -367,6 +367,8 @@ export class Contact extends React.Component {
 
         this.setState({
             selected: newArray
+        }, () => {
+            PubSub.publish('selections', newArray.length);
         })
     }
 }

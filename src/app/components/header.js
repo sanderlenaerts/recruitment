@@ -1,16 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import database from '../services/database';
+import selection from '../services/selection';
 import { toast } from 'react-toastify';
 import contact from '../services/contact';
-
+import PubSub from 'pubsub-js';
 
 export class Header extends React.Component {
     constructor(){
         super();
 
         this.state = {
-            contactCount: 0
+            contactCount: 0,
+            selectedCount: 0
         }
 
         this.flushContacts = this.flushContacts.bind(this);
@@ -20,6 +22,12 @@ export class Header extends React.Component {
         database.getContacts().then((contacts) => {
             this.setState({
                 contactCount: contacts.length
+            })
+        })
+
+        selection.get().then((items) => {
+            this.setState({
+                selectedCount: items.programmes.length
             })
         })
     }
@@ -39,9 +47,17 @@ export class Header extends React.Component {
             
         }.bind(this);
 
+        var updateSelectCounter = function(msg, length){
+            this.setState({
+                selectedCount: length
+            })
+        }.bind(this);
+
         // Subscribing to events published to 'contacts'
         // When event published to 'contacts' the mySubscriber method will trigger
         var token = PubSub.subscribe('contacts', mySubscriber);
+
+        PubSub.subscribe('selections', updateSelectCounter);
     }
 
     // Click method that will try to POST all the locally stored contacts (dexie)
@@ -134,8 +150,9 @@ export class Header extends React.Component {
                                 <img className="home" src="/app/assets/images/home-icon.png"/>
                             </Link>
                         </li>
-                        <li>
+                        <li className="contact-btn">
                             <Link to={`/contact`}>
+                                <span>{this.state.selectedCount}</span>
                                 <img className="contact" src="/app/assets/images/contact-icon.png"/>
                             </Link>
                         </li>

@@ -11,7 +11,8 @@ export class Programme extends React.Component {
         super(props);
         this.state = {
             selected: false,
-            option: this.props.option
+            option: this.props.option,
+            length: this.props.length
         }
 
         // To properly change the state in these functions, we need to bind to this
@@ -20,7 +21,12 @@ export class Programme extends React.Component {
     }
 
     _getButtonStyle(selected){
-        return selected ? 'btn-bad' : 'btn-good'
+        if (this.props.length == 3 && !selected) {
+            return 'btn-disabled'
+        }
+        else {
+            return selected ? 'btn-bad' : 'btn-good'
+        }
     }
 
     componentDidMount(){
@@ -47,7 +53,11 @@ export class Programme extends React.Component {
             .select(this.props.programme.ID, this.props.programme.Title)
             .then((success) => {
                 this.setState({
-                    selected: true
+                    selected: true,
+                    length: success.length
+                }, () => {
+                    this.props.limitedLength(success.length)
+                    
                 })
             })
     }
@@ -59,13 +69,17 @@ export class Programme extends React.Component {
             .remove(this.props.programme.ID)
             .then((msg) => {
                 this.setState({
-                    selected: false
+                    selected: false,
+                    length: msg.length
+                }, () => {
+                    this.props.limitedLength(msg.length)
                 })
 
             })
     }
 
     render(){
+        console.log('Render programme  ', this.props.programme.Title, '(amt of selections: ', this.state.length, ')')
         let programme = this.props.programme;
 
         return(
@@ -73,6 +87,7 @@ export class Programme extends React.Component {
                 <Route path='/options/:snumber/programmes/:pnumber' component={ProgrammeDetails}/>
                 <div className="btn-container">
                     <button 
+                        disabled={this.props.length === 3 && !this.state.selected}
                         className={this._getButtonStyle(this.state.selected) + ' btn btn-fixed'} 
                         onClick={this.state.selected ? this.removeProgramme : this.selectProgramme}>
                             { this.state.selected ? 'Remove' : 'Select'}

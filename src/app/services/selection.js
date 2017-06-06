@@ -24,7 +24,9 @@ const selection  = {
             if (index >= 0){
                 items.programmes.splice(index, 1);
                 localStorage.setItem('selected-programmes', JSON.stringify(items));
-                resolve('Succesfully removed');
+                resolve({
+                    length: items.programmes.length
+                });
             }
         })
 
@@ -56,7 +58,9 @@ const selection  = {
             })
 
             localStorage.setItem('selected-programmes', JSON.stringify(items));
-            resolve('Succesfully selected');
+            resolve({
+                length: items.programmes.length
+            });
         })
 
         return promise;

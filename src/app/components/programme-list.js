@@ -4,10 +4,13 @@ import { ProgrammeFilter } from './programme-filter';
 import { ProgrammeDetails } from './programme-details';
 
 import database from '../services/database';
+import selection from '../services/selection';
 
 import { Route, Switch, Link } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
+
+import PubSub  from 'pubsub-js';
 
 
 export class ProgrammeList extends React.Component {
@@ -17,11 +20,13 @@ export class ProgrammeList extends React.Component {
             items: [],
             type: 'Choose',
             id: this.props.match.params.snumber,
-            option: {}
+            option: {},
+            length: 0
         }
 
         // Need to bind the filter to the current state
         this.sendFilter = this.sendFilter.bind(this);
+        this.limitedLength = this.limitedLength.bind(this);
     }
 
     render(){
@@ -33,7 +38,7 @@ export class ProgrammeList extends React.Component {
         // For every programme we push a 'Programme' component with some properties that will be used
         if (this.state.type == 'Choose'){
             this.state.items.forEach(function(programme, index){
-                programmes.push(<Programme option={current.state.id} programme={programme} key={index} />);
+                programmes.push(<Programme length={current.state.length} limitedLength={current.limitedLength} option={current.state.id} programme={programme} key={index} />);
             })
         }
         else {
@@ -45,7 +50,7 @@ export class ProgrammeList extends React.Component {
                     return programme.Type == this.state.type
                 })
                 .forEach(function(programme, index){
-                    programmes.push(<Programme option={current.state.option} programme={programme} key={index} />);
+                    programmes.push(<Programme length={current.state.length} limitedLength={current.limitedLength} option={current.state.option} programme={programme} key={index} />);
                 })
         }
 
@@ -80,6 +85,15 @@ export class ProgrammeList extends React.Component {
     sendFilter(data){
         this.setState({
             type: data
+        })
+    }
+
+    limitedLength(length){
+        console.log('Event caught: ', length)
+        this.setState({
+            length: length
+        }, () => {
+            PubSub.publish('selections', this.state.length);
         })
     }
 
@@ -120,8 +134,13 @@ export class ProgrammeList extends React.Component {
                 });
             })
 
-       
-    }
+        selection.get().then((items) => {
+            this.setState({
+                length: items.programmes.length
+            })
+        })
+
+}
 
 
 }
