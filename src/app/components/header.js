@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import database from '../services/database';
 import { toast } from 'react-toastify';
+import contact from '../services/contact';
 
 
 export class Header extends React.Component {
@@ -11,6 +12,8 @@ export class Header extends React.Component {
         this.state = {
             contactCount: 0
         }
+
+        this.flushContacts = this.flushContacts.bind(this);
     }
 
     componentWillMount(){
@@ -21,22 +24,63 @@ export class Header extends React.Component {
         })
     }
 
+    
+    
+
     componentDidMount(){
         
         var mySubscriber = function( msg, data ){
-            console.log( msg, data );
-
              let count = this.state.contactCount;
            
 
             this.setState({
                 contactCount: (count  + 1)
-            }, () => {
-                console.log(this.state.contactCount)
             })
             
         }.bind(this);
+
+
         var token = PubSub.subscribe('contacts', mySubscriber);
+    }
+
+    flushContacts(){
+        
+        const toaster = toast(
+            <div>
+                <span className="loading">
+                    <img src="/app/assets/images/update-button.png" />
+                </span>
+                <span>
+                    <h3>Trying to flush contacts to the API</h3>
+                </span>
+            </div>, {
+                autoClose: false,
+                hideProgressBar: true
+            })
+
+        contact
+            .flushContacts()
+            .then((success) => {
+                toast.dismiss(toaster);
+                this.setState({
+                    contactCount: 0
+                }, () => {
+                    toast(<h3>All contacts were correctly flushed to the API</h3>, {
+                        type: 'success'
+                    })
+                })
+        }, error => {
+            toast.dismiss(toaster);
+            console.log(error);
+            this.setState({
+                contactCount: error.length
+            }, () => {
+                    toast(<h3>Not all contacts were flushed correctly</h3>, {
+                        type: 'error'
+                    })
+                })
+            console.log(error);
+        })
     }
 
     refreshDb(){
@@ -92,7 +136,7 @@ export class Header extends React.Component {
                         <li onClick={this.refreshDb}>
                             <img className="refresh" src="/app/assets/images/update-button.png"/>
                         </li>
-                        <li className="send-btn">
+                        <li onClick={this.flushContacts} className="send-btn">
                             <span>{this.state.contactCount}</span>
                             <img className="send" src="/app/assets/images/send.png"/>
                         </li>

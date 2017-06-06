@@ -59,7 +59,6 @@ const config = {
     plugins: [
         new ExtractTextPlugin('./assets/css/styles.css'),
         
-        
         new CopyWebpackPlugin(
             [
                  { 
@@ -91,13 +90,29 @@ if (process.env.NODE_ENV === 'production') {
                 screw_ie8: true
             }
         })
+    );
+
+    config.plugins.push(
+        new webpack.DefinePlugin({
+            'process.env' : {
+                'build': JSON.stringify('www')
+            }
+        })
     )
 
 } else {
     console.log('DEVELOPMENT')
     config.plugins.push(
         new webpack.HotModuleReplacementPlugin()
-    );
+    )
+
+    config.plugins.push(
+        new webpack.DefinePlugin({
+            'process.env' : {
+                'build': JSON.stringify('jeffrey')
+            }
+        })
+    )
 }
 
 module.exports = config;

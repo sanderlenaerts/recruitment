@@ -150,7 +150,7 @@ export class Contact extends React.Component {
             let contact = {
                 lastname: this.state.lastname,
                 firstname: this.state.firstname,
-                date: this.state.date.format(),
+                date: this.state.date.format('YYYY-MM-DDTHH:mm:ss') + 'Z',
                 title: this.state.title,
                 highschool: this.state.highschool,
                 notes: this.state.notes,

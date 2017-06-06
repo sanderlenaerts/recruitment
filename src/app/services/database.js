@@ -31,6 +31,20 @@ import 'whatwg-fetch';
         return promise;
     },
 
+    removeContact(id){
+        var promise = new Promise((resolve, reject) => {
+            db.contacts
+                .delete(id)
+                .then((success) => {
+                    resolve('Successfully deleted');
+                }, (error) => {
+                    reject('Could not store contact');            
+                })
+        })
+
+        return promise;
+    },
+
     storeContact(contact){
         
         var promise = new Promise((resolve, reject) => {
@@ -46,6 +60,10 @@ import 'whatwg-fetch';
 
         return promise;
         
+    },
+
+    clearContacts(){
+        // TODO: Clear the indexedDB
     },
 
     getStudyArea: function(id){
@@ -178,10 +196,7 @@ import 'whatwg-fetch';
                     }, (error) => reject('Programme not found'))
                     
         })
-
-
         return promise;
-
     },
 
     fetchAllProgrammes: function(){
@@ -202,6 +217,7 @@ import 'whatwg-fetch';
                     storeProgrammes(response);
                     resolve(response);
                 }, error => {
+                    console.log(error);
                     console.log('Fetching all programmes - FAIL');
                     reject(new Error('Failed to fetch and store new data'));
                 });
