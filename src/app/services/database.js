@@ -26,7 +26,6 @@ import 'whatwg-fetch';
             .then(values => {
                 resolve(values);
             }, error => {
-                console.log("FETCHALL", error);
                 reject(error);
             })
 
@@ -54,7 +53,6 @@ import 'whatwg-fetch';
     storeContact(contact){
         
         var promise = new Promise((resolve, reject) => {
-            console.log('Storing: ', contact);
             db.transaction('rw', 'contacts', function(contacts, trans){
                 contacts.put(contact)
             }).then((success) => {
@@ -143,23 +141,17 @@ import 'whatwg-fetch';
                         .then(() => {
                             let counter = data.programmes.count();
                             counter.then(count => {
-                                console.log('Count: ', count);
                                 
                                     if (programmes.length == 0 && count == 0){
-                                        // TODO: Filter on parentID
-                                        console.log(programmes.length);
                                         database
                                             .fetchAll()
                                             .then(values => { 
-                                                console.log('Fetched values');
                                                 
                                                 database.getProgrammes(id)
                                                     .then((data) => {
-                                                        console.log('Jajajaja');
                                                         resolve(data);
                                                     })
                                             }, (error) =>  {
-                                                console.log('What', error);
                                                 reject("No programmes found")
                                             })
                                             
@@ -222,12 +214,9 @@ import 'whatwg-fetch';
                 })
                 .then(response => response.json())
                 .then(response => {
-                    console.log('Fetching all programmes - SUCCESS');
                     storeProgrammes(response);
                     resolve(response);
                 }, error => {
-                    console.log(error);
-                    console.log('Fetching all programmes - FAIL');
                     reject(new Error('Failed to fetch and store new data'));
                 });
             }
@@ -252,7 +241,6 @@ import 'whatwg-fetch';
                 })
                 .then(response => response.json())
                 .then(response => {
-                    console.log('Fetching programmes with id - SUCCESS');
                     storeProgrammes(response);
                     var filtered = response.items.filter((programme) => {
                         return programme.ParentID == id
@@ -260,7 +248,6 @@ import 'whatwg-fetch';
 
                     resolve(filtered);
                 }, error => {
-                    console.log('Fetching programmes - FAIL');
                     reject(new Error('Failed to fetch and store new programmes'));
                 });
             }
@@ -271,13 +258,11 @@ import 'whatwg-fetch';
 
     // Fetch all the study areas/options from the API
      fetchStudyAreas: function(){
-        console.log('Fetching study areas');
         let programmes = [];
 
         var promise = new Promise(
             function(resolve, reject){
                 // Fetch all the study programmes and save them in indexedDB
-                // TODO: Error handling
                 fetch("https://www.op.ac.nz/api/v1/StudyAreaPage.json", {
                     method: 'GET',
                     headers: {
@@ -287,13 +272,11 @@ import 'whatwg-fetch';
                 })
                 .then(response => response.json())
                 .then(response => {
-                    console.log('Fetching study areas - SUCCESS');
                     storeStudyAreas(response);
 
 
                     resolve(response);
                 }, error => {
-                    console.log('Fetching study areas - FAIL');
                     reject(new Error('Failed to fetch and store new study areas'));
                 });
             }
@@ -312,7 +295,6 @@ import 'whatwg-fetch';
 
                 // Connect to the indexedDB using Dexie
                 db.open().then((data) => {
-                    console.log(data);
                     data.table("contacts")
                         .each((contact) => {
                             contacts.push(contact);
@@ -320,7 +302,6 @@ import 'whatwg-fetch';
                         .then(() => {
                             resolve(contacts)
                         }, function(error){
-                            console.log(error);
                             reject(new Error('Failed to get the contacts'));
                         });
                 })
@@ -353,7 +334,6 @@ var storeProgrammes = function(programmes){
 
 // Store the study areas/options in indexed db (dexie)
 var storeStudyAreas = function(options){
-        console.log('Stroing study areas');
         options.items.map(function(data){
             db.transaction('rw', 'studyareas', function(area, trans){
                 area.put({

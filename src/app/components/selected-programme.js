@@ -15,7 +15,6 @@ export class SelectedProgramme extends React.Component {
     componentDidMount(){
         // Check if the programme was selected
         let selected = this.props.programme;
-        console.log("PROPS: ", this.props);
         this.setState({
             selected: selected
         })
@@ -38,8 +37,6 @@ export class SelectedProgramme extends React.Component {
         selection
             .remove(this.props.programme.id)
             .then((msg) => {
-                console.log(msg);
-                console.log('Deleted from localStorage');
                 this.props.deleteSelectedProgramme(this.state.selected.id);
             })
     }

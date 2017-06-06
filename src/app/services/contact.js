@@ -9,7 +9,6 @@ const contacts  = {
 
     flushContacts: function(){
         let promise = new Promise((resolve, reject) => {
-            console.log(route);
 
             let errors = [];
 
@@ -56,7 +55,6 @@ const contacts  = {
                         // If the last contact, check if there were any errors
                         // If errors, reject, else resolve 
                         if (i == agents.length){
-                            console.log(i);
                             if(errors.length > 0) {
                                 reject(errors)
                             }

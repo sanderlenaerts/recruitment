@@ -79,7 +79,6 @@ export class Programme extends React.Component {
     }
 
     render(){
-        console.log('Render programme  ', this.props.programme.Title, '(amt of selections: ', this.state.length, ')')
         let programme = this.props.programme;
 
         return(
