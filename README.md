@@ -48,6 +48,9 @@ Install the dependencies and dev-dependencies.
 $ yarn install
 ```
 
+If you want to deploy the app not in the root folder of the server, you will have to change the 
+`publicPath` property in `webpack.prod.config.js` to `/path/to/app/location/app/`
+
 Run webpack to compile and bundle our javascript, compile sass, copy images etc.
 The `package.json` has a script `yarn run build:prod`.
 
