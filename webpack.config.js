@@ -14,8 +14,10 @@ const config = {
     // Where to look for entries
     context: path.resolve(__dirname, SRC_DIR),
     entry:  {
-
+        
         index:  [
+            'webpack-dev-server/client?http://127.0.0.0:8080', 
+            'webpack/hot/only-dev-server',
             './app/index.js'
         ]
     },
@@ -74,9 +76,6 @@ const config = {
         ),
 
         new AppCachePlugin({
-            cache: [''],
-            network: null,
-            settings: ['prefer-online'],
             output: 'my-manifest.appcache'
         }),
     ]

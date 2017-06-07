@@ -207,6 +207,7 @@ import 'whatwg-fetch';
             function(resolve, reject){
                 fetch("https://www.op.ac.nz/api/v1/ProgrammeInformationPage.json", {
                     method: 'GET',
+                    mode: 'cors',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'text/plain'
@@ -217,6 +218,7 @@ import 'whatwg-fetch';
                     storeProgrammes(response);
                     resolve(response);
                 }, error => {
+                    console.log(error);
                     reject(new Error('Failed to fetch and store new data'));
                 });
             }
@@ -234,6 +236,7 @@ import 'whatwg-fetch';
             function(resolve, reject){
                 fetch("https://www.op.ac.nz/api/v1/ProgrammeInformationPage.json", {
                     method: 'GET',
+                    mode: 'cors',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'text/plain'
@@ -265,6 +268,7 @@ import 'whatwg-fetch';
                 // Fetch all the study programmes and save them in indexedDB
                 fetch("https://www.op.ac.nz/api/v1/StudyAreaPage.json", {
                     method: 'GET',
+                    mode: 'cors',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'text/plain'
