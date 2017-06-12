@@ -179,6 +179,8 @@ export class Contact extends React.Component {
                             }
                         }
 
+                        PubSub.publish('selections', 0);
+
                         // Reset the form to not edited
                         this.setState({
                             edited: false

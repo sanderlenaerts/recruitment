@@ -11,7 +11,7 @@ const DIST_DIR = path.resolve(__dirname, "dist")
 // Where to find the entrance source code files
 const SRC_DIR = path.resolve(__dirname, "src");
 
-const PUB_PATH = '/app/'
+const PUB_PATH = '/themes/recruitment/dist/app/'
 
 const config = {
     // Where to look for entries

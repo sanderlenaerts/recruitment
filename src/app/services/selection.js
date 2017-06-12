@@ -33,6 +33,17 @@ const selection  = {
         return promise;
     },
 
+    removeAll(){
+        let promise = new Promise((resolve, reject) => {
+
+            // Get the programmes saved as selected in localstorage
+            let items =  { programmes: []};
+            localStorage.setItem('selected-programmes', JSON.stringify(items));
+        })
+
+        return promise;
+    },
+
     // Get all the programmes from localstorage
     get: function(){
         let promise = new Promise((resolve, reject) => {

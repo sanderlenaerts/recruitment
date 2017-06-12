@@ -1,4 +1,7 @@
 import { database } from './database';
+
+import selections from './selection';
+
 import 'whatwg-fetch';
 
 // const route = "https://" + process.env.build + ".op.ac.nz";
@@ -49,6 +52,8 @@ const contacts  = {
                     }).then((d) => {
                         // Successfull POST, so the local contact can be removed
                         database.removeContact(contact.id);
+
+                        selections.removeAll();
                         
                         // Check if this is the last of the contacts
                         // i instead of i+1 because counter has already gone up
