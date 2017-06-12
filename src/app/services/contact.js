@@ -3,7 +3,7 @@ import 'whatwg-fetch';
 
 // const route = "https://" + process.env.build + ".op.ac.nz";
 
-const route = 'http://10.110.4.12:3000';
+const route = 'https://www.op.ac.nz/';
 
 const contacts  = {
 

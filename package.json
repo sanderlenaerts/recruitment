@@ -7,7 +7,7 @@
   "scripts": {
     "start": "yarn run build",
     "build": "webpack -d && webpack-dev-server --hot --inline --contentBase dist/ --host 0.0.0.0",
-    "build:prod": "NODE_ENV='production' webpack --optimize-minimize -p --config webpack.prod.config.js"
+    "build:prod": "webpack --optimize-minimize -p --config webpack.prod.config.js"
   },
   "dependencies": {
     "dexie": "^1.5.1",
