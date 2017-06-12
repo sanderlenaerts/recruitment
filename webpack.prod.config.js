@@ -81,10 +81,6 @@ const config = {
                      from: './app/assets/images',
                      to: './assets/images'
                  },
-                 {
-                     from: './app/assets/scripts',
-                     to: './assets/scripts'
-                 },
                  
             ]
         ),
