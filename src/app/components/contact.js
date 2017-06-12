@@ -2,7 +2,7 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import validator from 'validator';
-import database from '../services/database';
+import { database } from '../services/database';
 import { SelectedProgramme } from './selected-programme';
 import { Link } from 'react-router-dom';
 import { toast} from 'react-toastify';

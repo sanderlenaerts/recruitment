@@ -8,11 +8,12 @@ import { StudyOptionList } from './components/study-option-list';
 import { Contact } from './components/contact';
 import { NotFound } from './components/not-found';
 
-import database from './services/database';
+import {database} from './services/database';
 
 import { Switch, Route } from 'react-router-dom'
 
 import { ToastContainer } from 'react-toastify';
+
 
 
 export class Layout extends React.Component {
@@ -39,7 +40,7 @@ export class Layout extends React.Component {
     }
 
     componentWillMount(){
-        database.init();
+        //database.init();
     }
 
 

@@ -1,4 +1,4 @@
-import database from './database';
+import { database } from './database';
 import 'whatwg-fetch';
 
 // const route = "https://" + process.env.build + ".op.ac.nz";

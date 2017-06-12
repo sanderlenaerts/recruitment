@@ -3,7 +3,7 @@ import { Programme } from './programme';
 import { ProgrammeFilter } from './programme-filter';
 import { ProgrammeDetails } from './programme-details';
 
-import database from '../services/database';
+import {database} from '../services/database';
 import selection from '../services/selection';
 
 import { Route, Switch, Link } from 'react-router-dom';

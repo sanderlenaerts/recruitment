@@ -2,7 +2,7 @@ import React from 'react';
 
 import dexie from 'dexie';
 const db = new dexie('maindb');
-import database from '../services/database';
+import {database} from '../services/database';
 
 import { Link } from 'react-router-dom';
 

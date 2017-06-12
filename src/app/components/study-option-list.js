@@ -5,9 +5,11 @@ import { StudyOption } from './study-option';
 
 import { Route, Switch } from 'react-router-dom';
 
-import database from '../services/database';
+import { database } from '../services/database';
 
 import { toast } from 'react-toastify';
+
+import db from '../services/db';
 
 export class StudyOptionList extends React.Component {
     constructor(){
@@ -39,6 +41,11 @@ export class StudyOptionList extends React.Component {
 
      componentDidMount(){
          // On mount we need to get all the study options and set them in state
+        console.log('Getting studyareas')
+        db.table('studyareas').toArray((array) => {
+            console.log(array);
+        });
+
         database.getStudyAreas()
             .then((data) => {
                 this.setState({

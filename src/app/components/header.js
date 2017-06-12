@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import database from '../services/database';
+import { database } from '../services/database';
 import selection from '../services/selection';
 import { toast } from 'react-toastify';
 import contact from '../services/contact';
 import PubSub from 'pubsub-js';
+import db from '../services/db';
 
 export class Header extends React.Component {
     constructor(){
@@ -19,11 +20,11 @@ export class Header extends React.Component {
     }
 
     componentWillMount(){
-        database.getContacts().then((contacts) => {
-            this.setState({
-                contactCount: contacts.length
-            })
-        })
+        // database.getContacts().then((contacts) => {
+        //     this.setState({
+        //         contactCount: contacts.length
+        //     })
+        // })
 
         selection.get().then((items) => {
             this.setState({

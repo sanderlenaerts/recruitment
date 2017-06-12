@@ -1,6 +1,7 @@
-const dexie = require('dexie');
-const db = new dexie('maindb');
+
 import 'whatwg-fetch';
+
+import db from './db';
 
  const database  = {
 
@@ -8,11 +9,17 @@ import 'whatwg-fetch';
     // Set the version
     // Initialize what kind of data is expected
     init: function(){
-        db.version(1).stores({
-            studyareas: 'ID,Description,Title,Content,IPadHidden,ParentID,Tags,Terms,RelatedPages,ID',
-            programmes: 'ID,Title,Location,Duration,Level,Start,Content,ParentID,Type',
-            contacts: '++id, title, firstname, lastname, date, highschool, notes, phone, email, programmes'
-        });
+        // db.version(1).stores({
+        //     studyareas: 'ID,Description,Title,Content,IPadHidden,ParentID,Tags,Terms,RelatedPages,ID',
+        //     programmes: 'ID,Title,DescLocation,DescDuration,DescLevel,DescStart,Content,ParentID,Type',
+        //     contacts: '++id, title, firstname, lastname, date, highschool, notes, phone, email, programmes'
+        // });
+
+        // db.table('studyareas').put({
+        //     ID: 1,
+        //     Title: 'Sander'
+        // })
+        console.log('Init and added');
     },
     
     // Fetch for both the programmes and study options
@@ -24,7 +31,15 @@ import 'whatwg-fetch';
 
             Promise.all([programmes, areas])
             .then(values => {
-                resolve(values);
+                console.log(values);
+                db.transaction('rw', db.studyareas, db.programmes, () => {
+                    db.studyareas.bulkPut(values[1].items);
+                    db.programmes.bulkPut(values[0].items);
+                }).then((result) => {
+                    resolve(values);
+                })
+
+                
             }, error => {
                 reject(error);
             })
@@ -75,7 +90,7 @@ import 'whatwg-fetch';
                 data.studyareas.get(id)
                 .then((option) => {
 
-                    // If nothing was found, try fetching the data from remote
+                    //If nothing was found, try fetching the data from remote
                     if (option) resolve(option);
                     else database
                         .fetchAll()
@@ -83,6 +98,7 @@ import 'whatwg-fetch';
                         .then(
                             (value) => resolve(value), 
                             (error) => reject("No content was found"));
+                    
                     
                 }, (error) =>  reject('Option not found'))
             })
@@ -97,6 +113,7 @@ import 'whatwg-fetch';
         var promise = new Promise((resolve, reject) => {
             
             // Connect to the indexedDB using Dexie
+            console.log('Getting studyareas - opening db')
             db.open()
                 .then((data) => {
                     data.studyareas
@@ -205,7 +222,7 @@ import 'whatwg-fetch';
 
         var promise = new Promise(
             function(resolve, reject){
-                fetch("https://www.op.ac.nz/api/v1/ProgrammeInformationPage.json", {
+                fetch("https://www.op.ac.nz/api/v1/ProgrammeInformationPage.json?fields=ID,Title,DescLocation,DescDuration,DescLevel,DescStart,Content,ParentID,Type", {
                     method: 'GET',
                     mode: 'cors',
                     headers: {
@@ -215,7 +232,7 @@ import 'whatwg-fetch';
                 })
                 .then(response => response.json())
                 .then(response => {
-                    storeProgrammes(response);
+                    //storeProgrammes(response);
                     resolve(response);
                 }, error => {
                     console.log(error);
@@ -244,7 +261,7 @@ import 'whatwg-fetch';
                 })
                 .then(response => response.json())
                 .then(response => {
-                    storeProgrammes(response);
+                    //storeProgrammes(response);
                     var filtered = response.items.filter((programme) => {
                         return programme.ParentID == id
                     })
@@ -266,7 +283,7 @@ import 'whatwg-fetch';
         var promise = new Promise(
             function(resolve, reject){
                 // Fetch all the study programmes and save them in indexedDB
-                fetch("https://www.op.ac.nz/api/v1/StudyAreaPage.json", {
+                fetch("https://www.op.ac.nz/api/v1/StudyAreaPage.json?fields=ID,Description,Title,Content,IPadHidden,ParentID", {
                     method: 'GET',
                     mode: 'cors',
                     headers: {
@@ -276,7 +293,7 @@ import 'whatwg-fetch';
                 })
                 .then(response => response.json())
                 .then(response => {
-                    storeStudyAreas(response);
+                    //storeStudyAreas(response);
 
 
                     resolve(response);
@@ -377,4 +394,4 @@ let filterProgrammes = function(id, array){
 }
 
 
-module.exports = database;
+export {database as database}

@@ -108,10 +108,10 @@ export class Programme extends React.Component {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{programme.Location}</td>
-                                    <td>{programme.Duration}</td>
-                                    <td>{programme.Level}</td>
-                                    <td>{programme.Start}</td>
+                                    <td>{programme.DescLocation}</td>
+                                    <td>{programme.DescDuration}</td>
+                                    <td>{programme.DescLevel}</td>
+                                    <td>{programme.DescStart}</td>
                                 </tr>
                             </tbody>
                         </table>
