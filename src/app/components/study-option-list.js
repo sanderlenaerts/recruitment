@@ -41,10 +41,6 @@ export class StudyOptionList extends React.Component {
 
      componentDidMount(){
          // On mount we need to get all the study options and set them in state
-        console.log('Getting studyareas')
-        db.table('studyareas').toArray((array) => {
-            console.log(array);
-        });
 
         database.getStudyAreas()
             .then((data) => {
