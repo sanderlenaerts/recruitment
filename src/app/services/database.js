@@ -9,17 +9,6 @@ import db from './db';
     // Set the version
     // Initialize what kind of data is expected
     init: function(){
-        // db.version(1).stores({
-        //     studyareas: 'ID,Description,Title,Content,IPadHidden,ParentID,Tags,Terms,RelatedPages,ID',
-        //     programmes: 'ID,Title,DescLocation,DescDuration,DescLevel,DescStart,Content,ParentID,Type',
-        //     contacts: '++id, title, firstname, lastname, date, highschool, notes, phone, email, programmes'
-        // });
-
-        // db.table('studyareas').put({
-        //     ID: 1,
-        //     Title: 'Sander'
-        // })
-        console.log('Init and added');
     },
     
     // Fetch for both the programmes and study options
@@ -31,7 +20,6 @@ import db from './db';
 
             Promise.all([programmes, areas])
             .then(values => {
-                console.log(values);
                 db.transaction('rw', db.studyareas, db.programmes, () => {
                     db.studyareas.bulkPut(values[1].items);
                     db.programmes.bulkPut(values[0].items);
@@ -113,7 +101,6 @@ import db from './db';
         var promise = new Promise((resolve, reject) => {
             
             // Connect to the indexedDB using Dexie
-            console.log('Getting studyareas - opening db')
             db.open()
                 .then((data) => {
                     data.studyareas
@@ -232,10 +219,8 @@ import db from './db';
                 })
                 .then(response => response.json())
                 .then(response => {
-                    //storeProgrammes(response);
                     resolve(response);
                 }, error => {
-                    console.log(error);
                     reject(new Error('Failed to fetch and store new data'));
                 });
             }
@@ -261,7 +246,6 @@ import db from './db';
                 })
                 .then(response => response.json())
                 .then(response => {
-                    //storeProgrammes(response);
                     var filtered = response.items.filter((programme) => {
                         return programme.ParentID == id
                     })
@@ -293,9 +277,6 @@ import db from './db';
                 })
                 .then(response => response.json())
                 .then(response => {
-                    //storeStudyAreas(response);
-
-
                     resolve(response);
                 }, error => {
                     reject(new Error('Failed to fetch and store new study areas'));
@@ -334,43 +315,7 @@ import db from './db';
     }
 }
 
-// Store the programmes in indexed db (dexie)
-var storeProgrammes = function(programmes){
-        programmes.items.map(function(data){
-            db.transaction('rw', 'programmes', function(programme, trans){
-                programme.put({
-                    ID: data.ID, 
-                    Title: data.Title, 
-                    Location: data.DescLocation,
-                    Duration: data.DescDuration,
-                    Level: data.DescLevel,
-                    Start: data.DescStart,
-                    Content:data.Content,
-                    ParentID: data.ParentID, 
-                    Type:data.Type
-                })
-            })
-        })
-}
 
-// Store the study areas/options in indexed db (dexie)
-var storeStudyAreas = function(options){
-        options.items.map(function(data){
-            db.transaction('rw', 'studyareas', function(area, trans){
-                area.put({
-                    ID: data.ID,
-                    Description: data.Description,
-                    Title: data.Title,
-                    Content: data.Content,
-                    IPadHidden: data.IPadHidden,
-                    ParentID: data.ParentID,
-                    Tags: data.Tags,
-                    Terms: data.Terms,
-                    RelatedPages: data.RelatedPages
-                })
-            })
-        })
-    }
 
 let filterArea = function(id, array){
     // Filter through to get the correct study area
