@@ -4,6 +4,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const AppCachePlugin = require('appcache-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+
 
 // Directory where the compiled will go: copy everything to dist folder
 const DIST_DIR = path.resolve(__dirname, "dist")
@@ -70,7 +72,7 @@ const config = {
     },
     plugins: [
         new ExtractTextPlugin('assets/css/styles.css'),
-        
+        new FaviconsWebpackPlugin('./app/assets/images/logo.png'),
         new CopyWebpackPlugin(
             [
                 //  { 

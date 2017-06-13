@@ -96,7 +96,7 @@ export class Programme extends React.Component {
 
                 <Link to={{ pathname:`/options/${this.props.option}/programmes/${ this.props.programme.ID}`}}>
                     <div>
-                        <h3>{programme.title}</h3>
+                        <h3>{programme.Title}</h3>
                         <table cellSpacing="0" className="programme-info">
                             <thead className="subtitles">
                                 <tr>
