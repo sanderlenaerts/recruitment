@@ -20,11 +20,11 @@ export class Header extends React.Component {
     }
 
     componentWillMount(){
-        // database.getContacts().then((contacts) => {
-        //     this.setState({
-        //         contactCount: contacts.length
-        //     })
-        // })
+        database.getContacts().then((contacts) => {
+            this.setState({
+                contactCount: contacts.length
+            })
+        })
 
         selection.get().then((items) => {
             this.setState({
