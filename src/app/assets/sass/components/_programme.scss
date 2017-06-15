@@ -7,11 +7,13 @@
     .btn-container {
         padding-right: $huge-margin;
         display: inline-block;
+        max-width: 20%;
+        box-sizing: border-box;
     }
 
     a {
         
-        width: 80%;
+        width: 75%;
         text-decoration: none;
         display: inline-block;
        
