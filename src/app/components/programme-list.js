@@ -12,6 +12,8 @@ import { toast } from 'react-toastify';
 
 import PubSub  from 'pubsub-js';
 
+import _ from 'underscore';
+
 
 export class ProgrammeList extends React.Component {
     constructor(props){
@@ -72,7 +74,7 @@ export class ProgrammeList extends React.Component {
                     </div>
                 </Link>
                 <Route exact path='/options/:snumber/programmes/:pnumber' component={ProgrammeDetails}/> 
-                <h1>{this.state.option? this.state.option.Title || 'Programme Options' : 'Programme Options'}</h1>
+                <h1>{this.state.option? _.unescape(this.state.option.Title) || 'Programme Options' : 'Programme Options'}</h1>
                 <ProgrammeFilter sendFilter={this.sendFilter} />
                 { inner }
             </div>
