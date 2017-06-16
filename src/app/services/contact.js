@@ -31,9 +31,9 @@ const contacts  = {
                         HighSchool: contact.highschool || '',
                         PhoneNumber: contact.phone,
                         Title: contact.title,
-                        InterestedTitle1: contact.programmes[0]? contact.programmes[0].name : '',
-                        InterestedTitle2: contact.programmes[1]? contact.programmes[1].name : '',
-                        InterestedTitle3: contact.programmes[2]? contact.programmes[2].name : ''
+                        InterestedTitle1: contact.selected1? contact.selected1.name : '',
+                        InterestedTitle2: contact.selected2? contact.selected2.name : '',
+                        InterestedTitle3: contact.selected3? contact.selected3.name : ''
                     }
 
                     // We convert our object literal to a querystring that is expected of the PHP API

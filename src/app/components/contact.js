@@ -159,7 +159,9 @@ export class Contact extends React.Component {
                 notes: this.state.notes,
                 phone: this.state.phone,
                 email: this.state.email,
-                programmes: this.state.selected
+                selected1: this.state.selected[0],
+                selected2: this.state.selected[1],
+                selected3: this.state.selected[2]
             }
 
             // Store it in the local indexed db
