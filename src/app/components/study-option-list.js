@@ -28,6 +28,15 @@ export class StudyOptionList extends React.Component {
             options.push(<StudyOption option={option} key={index} />);
         })
 
+        options.sort((a, b) => {
+            let nameA = a.props.option.Title.toLowerCase(), nameB=b.props.option.Title.toLowerCase()
+            if (nameA < nameB) //sort string ascending
+                return -1 
+            if (nameA > nameB)
+                return 1
+            return 0 //default return value (no sorting)
+        })
+
         return(
             <div>
                 <h1>Study Options</h1>
