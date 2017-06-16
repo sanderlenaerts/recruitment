@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "dexie": "^1.5.1",
+    "jquery": "^3.2.1",
     "moment": "^2.18.1",
     "pubsub-js": "^1.5.7",
     "react": "^15.5.4",
@@ -33,6 +34,7 @@
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.2",
     "extract-text-webpack-plugin": "^2.1.0",
+    "favicons-webpack-plugin": "^0.0.7",
     "file-loader": "^0.11.1",
     "html-webpack-plugin": "^2.28.0",
     "node-sass": "^4.5.3",
@@ -41,7 +43,6 @@
     "style-loader": "^0.18.1",
     "url-loader": "^0.5.8",
     "webpack": "^2.6.0",
-    "webpack-dev-server": "^2.4.5",
-    "favicons-webpack-plugin": "^0.0.7"
+    "webpack-dev-server": "^2.4.5"
   }
 }

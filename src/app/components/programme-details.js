@@ -8,6 +8,9 @@ import { Link } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 
+import $ from 'jquery';
+
+
 export class ProgrammeDetails extends React.Component {
 
     constructor(props){
@@ -28,7 +31,10 @@ export class ProgrammeDetails extends React.Component {
             .then((programme) => {
                 this.setState({
                     programme: programme
+                }, () => {
+                    this.collapse()
                 })
+                
             }, (error) => {
                 toast(<h3>Programme with this id ({this.state.programmeId}) could not be found</h3>, {
                     type: 'error',
@@ -44,7 +50,7 @@ export class ProgrammeDetails extends React.Component {
 
         if (this.state.programme.Title){
             content = 
-                <div>
+                <div className="programme-details">
                 <Link to={{ pathname: `/options/${this.state.optionId}/programmes`}}>
                     <div className="backbutton">
                         <img src="/app/assets/images/back-button.png" />
@@ -71,6 +77,34 @@ export class ProgrammeDetails extends React.Component {
             </div>
             
         );
+    }
+
+    collapse(){
+        $('h2').each((index, element) => {
+           $(element)
+            .nextUntil( "h2" )
+            .toggle();
+
+           
+
+            $(element).click(() => {
+                if($(element).next().css('display') === 'none'){
+                    $(element).css('background-image', 'url(' + "/app/assets/images/show-hide-other.png"  +')');
+                }
+                else {
+                    $(element).css('background-image','url(' + "/app/assets/images/show-hide.png"  +')');
+                }
+
+                $(element)
+                    .nextUntil( "h2" )
+                    .toggle();
+            })
+        })
+
+        $('hr').each((index, element) => {
+         $(element).remove();
+       });
+            
     }
 
 
