@@ -25,7 +25,10 @@ export class StudyOptionList extends React.Component {
 
         // Loop over all the study options and push a component for each option
         this.state.items.forEach(function(option, index){
-            options.push(<StudyOption option={option} key={index} />);
+            console.log(option.IPadHidden === "0");
+            if (option.IPadHidden === "0"){
+                options.push(<StudyOption option={option} key={index} />);
+            }
         })
 
         options.sort((a, b) => {
